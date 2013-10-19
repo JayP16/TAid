@@ -31,7 +31,9 @@ public class FullscreenActivity extends Activity {
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
-	public final static String EXTRA_MESSAGE = "com.example.TAid.MESSAGE";
+	public final static String userId = "com.example.TAid.MESSAGE";
+	public final static String password = "com.example.TAid.MESSAGE";
+	
 
 
     /**
@@ -46,10 +48,10 @@ public class FullscreenActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+        
 
         setContentView(R.layout.activity_fullscreen);
-
+        super.onCreate(savedInstanceState);
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
 
@@ -173,8 +175,11 @@ public class FullscreenActivity extends Activity {
 	 Toast.makeText(this, "Verifying...", Toast.LENGTH_LONG).show();
 		Intent intent = new Intent(this, DisplayMessageActivity.class);
 	    EditText editText = (EditText) findViewById(R.id.user_id);
-	    String message = editText.getText().toString();
-	    intent.putExtra(EXTRA_MESSAGE, message);
+	    EditText pass = (EditText) findViewById(R.id.password);
+	    String username = editText.getText().toString();
+	    String passwords = pass.getText().toString();
+	    intent.putExtra(userId, username);
+	    intent.putExtra(password, passwords);
 	    startActivity(intent);
  }
 
