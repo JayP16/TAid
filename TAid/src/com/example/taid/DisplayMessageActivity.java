@@ -9,9 +9,11 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 
 
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -56,39 +58,16 @@ public class DisplayMessageActivity extends Activity{
 
 	private void init(String username, String password) 
 	{
-			Socket clientSocket;
 			// Create the text view
 		    TextView textView = new TextView(this);
 		    textView.setTextSize(40);
 		    textView.setText("checking..");
+		    System.out.print("here");
 	 
 		    // Set the text view as the activity layout
 		   setContentView(textView);
-			try {
-				clientSocket = new Socket("135.23.105.149", 6789);
-				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-				PrintWriter printwriter = new PrintWriter(clientSocket.getOutputStream(),true);
-				printwriter.println(username);
-				printwriter.println(password);
-				String result = in.readLine();
-				loginResultsView.setText(result);
-				loginResultsView.setTextSize(40);
-				setContentView(loginResultsView);
-				clientSocket.close();
-				in.close();
-				printwriter.close();
-				
-			} catch (UnknownHostException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			textView.setText("done..");
-			 
-		    // Set the text view as the activity layout
-		   setContentView(textView);
+		   AsyncTask<String, Void, String> result = new CheckAccount().execute(username,password);
+			
 	
 			
 		}
@@ -104,4 +83,29 @@ public class DisplayMessageActivity extends Activity{
         return super.onOptionsItemSelected(item);
     }
     
+}
+
+class CheckAccount extends AsyncTask<String, Void, String>{
+
+    private Exception exception;
+    private TextView loginResultsView;
+    
+    protected String doInBackground(String username, String password) {
+    	TextView textView = new TextView(null);
+    	textView.setText("done..");
+		 System.out.print("here");
+		return password;
+    	
+    }
+
+    protected void onPostExecute() {
+        // TODO: check this.exception 
+        // TODO: do something with the feed
+    }
+
+	@Override
+	protected String doInBackground(String... params) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

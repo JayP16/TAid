@@ -1,10 +1,17 @@
 package com.example.taid;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -133,6 +140,7 @@ public class FullscreenActivity extends Activity {
             mSystemUiHider.hide();
         }
     };
+	private Exception exception;
 
  private void registerViews() {
  	userName = (EditText) findViewById(R.id.user_id);
@@ -164,31 +172,66 @@ public class FullscreenActivity extends Activity {
              Validation class will check the error and display the error on respective fields
              but it won't resist the form submission, so we need to check again before submit
               */
-             if ( checkValidation () )
+			if ( checkValidation ())
+            	 
             	 submitForm(view);
          }
      });
  }
 
  private void submitForm(View view) {
-     // Submit your form here. your form is valid
-	 Toast.makeText(this, "Verifying...", Toast.LENGTH_LONG).show();
-		Intent intent = new Intent(this, DisplayMessageActivity.class);
-	    EditText editText = (EditText) findViewById(R.id.user_id);
-	    EditText pass = (EditText) findViewById(R.id.password);
-	    String username = editText.getText().toString();
-	    String passwords = pass.getText().toString();
-	    intent.putExtra(userId, username);
-	    intent.putExtra(password, passwords);
-	    startActivity(intent);
+	 String re = CheckAccount();
+	 if (re.equals("1")){
+		 
+		  // Submit your form here. your form is valid
+		 Toast.makeText(this, "Verifying...", Toast.LENGTH_LONG).show();
+			Intent intent = new Intent(this, DisplayMessageActivity.class);
+		    EditText editText = (EditText) findViewById(R.id.user_id);
+		    EditText pass = (EditText) findViewById(R.id.password);
+		    String username = editText.getText().toString();
+		    String passwords = pass.getText().toString();
+		    intent.putExtra(userId, username);
+		    intent.putExtra(password, passwords);
+		    startActivity(intent);
+		 
+	 }
+   
  }
 
- private boolean checkValidation() {
+private boolean checkValidation() {
      boolean ret = true;
-
      if (!Validation.hasText(userName)) ret = false;
      if (!Validation.hasText(passw)) ret = false;
      return ret;
+ }
+ 
+ @SuppressLint("NewApi")
+private String CheckAccount() {
+     if (android.os.Build.VERSION.SDK_INT > 9) {
+    	    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+    	    StrictMode.setThreadPolicy(policy);
+    	}
+     String result = "";
+     EditText editText = (EditText) findViewById(R.id.user_id);
+	    EditText pass = (EditText) findViewById(R.id.password);
+	    String username = editText.getText().toString();
+	    String passwords = pass.getText().toString();
+     Socket clientSocket;
+     try {
+     	clientSocket = new Socket("192.168.1.70", 6889);
+			BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			PrintWriter printwriter = new PrintWriter(clientSocket.getOutputStream(),true);
+			printwriter.println("login");
+			printwriter.println(username);
+			printwriter.println(passwords);
+			result = in.readLine();
+			clientSocket.close();
+			in.close();
+			printwriter.close();
+     } catch (Exception e) {
+         this.exception = e;
+     }
+	return result;
  }
  
 }
