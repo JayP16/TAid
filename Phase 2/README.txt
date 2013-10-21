@@ -11,7 +11,11 @@ CRC cards
 scrum board.xlsx
 ----------------
 Scrum board with what we've done up until Oct 20th
-Productbacklog.xlsx is our product backlog which helped us make the scrum board
+
+
+Productbacklog.xlsx 
+-------------------
+Our product backlog which helped us make the scrum board
 
 
 burndown chart.xlsx 
