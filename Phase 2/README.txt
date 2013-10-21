@@ -25,3 +25,9 @@ Burndown chart.
 
 Implementation
 --------------
+To test On Phone:
+  The current .apk is in TAid/bin/TAid.apk. You can use this to install and test the app on a device. Make sure to allow 
+  untrusted apps to install in settings.
+To test On Virtual Device:
+  In eclipse you can import(File -> Import) the project by selecting the root folder (TAid) and running the project in an AVD.
+  
