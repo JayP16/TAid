@@ -65,26 +65,29 @@
 			    android:gravity="center"
 			    android:ellipsize="start"
 			    android:hint="@string/pass" >
-			</EditText>  
-
+			</EditText>  			
+	</LinearLayout>
 		
-			
-		</LinearLayout>
-		
-
   <LinearLayout
       android:layout_width="100dp"
-      android:layout_height="wrap_content" 
+      android:layout_height="wrap_content"
       android:layout_gravity="center_vertical|center_horizontal"
-      android:paddingTop="150dp">
-	
-		  <Button
-		      android:id="@+id/submit"
-		      android:layout_width="match_parent"
-		      android:layout_height="wrap_content"
-		      android:text="@string/log_in" />
+      android:orientation="vertical"
+      android:paddingTop="200dp" >
+			
+	  <Button
+	      android:id="@+id/submit"
+	      android:layout_width="match_parent"
+	      android:layout_height="wrap_content"
+	      android:text="@string/log_in" />
+   </LinearLayout>
 
-        </LinearLayout> 
-
+  <Button
+      android:id="@+id/register"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
+      android:textColor="#000033"
+      android:text="@string/reg" />
 
 </FrameLayout>

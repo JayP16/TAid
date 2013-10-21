@@ -8,6 +8,7 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
 	<string name="log_in">Log In</string>
+	<string name="reg">Don\'t have a account? Register now.</string>
 	<string name="pass">Password</string>
 
 </resources>
