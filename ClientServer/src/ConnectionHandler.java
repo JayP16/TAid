@@ -13,25 +13,25 @@ import java.util.Scanner;
 
 public class ConnectionHandler implements Runnable
 {
-	private Socket soc; 
-	ServerSocket serverSocket = null; 
+	private Socket soc;
+	ServerSocket serverSocket = null;
 
 	public ConnectionHandler(Socket soc)
 	{
 		this.soc = soc;
 		Thread t = new Thread(this);
-		t.start();	
+		t.start();
 	}
-	
+
 	public boolean checkAccount(String user, String pass)
 	{
 		BufferedReader br = null;
 		try {
- 
+
 			String currentLine;
 			br = new BufferedReader(new FileReader("Database/LoginDatabase/login.txt"));
 			String[] splitArray;
-			while ((currentLine = br.readLine()) != null) 
+			while ((currentLine = br.readLine()) != null)
 			{
 				splitArray = currentLine.split("\\s+");
 				if (user.equals(splitArray[0]))
@@ -44,7 +44,7 @@ public class ConnectionHandler implements Runnable
 					return false;
 				}
 			}
- 
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
@@ -53,7 +53,7 @@ public class ConnectionHandler implements Runnable
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
-			
+
 		}
 		return false;
 	}
@@ -63,39 +63,54 @@ public class ConnectionHandler implements Runnable
 		System.out.println("Someone is trying to login...");
 		BufferedReader in;
 		try {
-			in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
-	        PrintWriter out = new PrintWriter(soc.getOutputStream(), true);
-	        String cmd = in.readLine();
-	        if (cmd.equals("login"))
-	        {
+                    in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
+                    PrintWriter out = new PrintWriter(soc.getOutputStream(), true);
+                    String cmd = in.readLine();
+                    if (cmd.equals("login"))
+                    {
 		        String username = in.readLine();
 		        String password = in.readLine();
 		        System.out.println("Username: " + username + "\nPassword: " + password);
 		        if (checkAccount(username, password))
 		        {
-		        	System.out.println("The user has logged in!!");
-		        	out.println("valid");
+                            System.out.println("The user has logged in!!");
+                            out.println("1");
 		        }
 		        else
 		        {
-		        	System.out.println("Invalid login credentials...");
-		        	out.println("invalid");
+                            System.out.println("Invalid login credentials...");
+                            out.println("0");
 		        }
 		        soc.close();
 		        in.close();
 		        out.close();
-
-	        }
-
-
-
+                    }
+                    else if (cmd.equals("register"))
+                    {
+                        String username = in.readLine();
+                        String password = in.readLine();
+                        String toAdd = username + " " + password;
+                        System.out.println(toAdd);
+                        System.out.println("Registering...");
+                        registerUser(toAdd);
+                        out.println("1");
+                    }
+                    else{
+                        out.println("invalid");
+                    }
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-
-	     
-	     
 	}
+
+    private void registerUser(String toAdd) {
+        try {
+            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("Database/LoginDatabase/login.txt", true)));
+            out.println(toAdd);
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
