@@ -2,6 +2,7 @@ package com.example.taid;
 
 
 
+import UserInformation.TeachingAssistant;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -10,34 +11,35 @@ import android.support.v4.app.NavUtils;
 import android.view.MenuItem;
 import android.widget.TextView;
  
+
 public class DisplayMessageActivity extends Activity{
 	
-    @SuppressLint("NewApi")
+	private TeachingAssistant t;
+    
+	@SuppressLint("NewApi")
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 	    super.onCreate(savedInstanceState);
 
 	    // Get the message from the intent
 	    Intent intent = getIntent();
-	    String userId = intent.getStringExtra(FullscreenActivity.userId);
-	    String password = intent.getStringExtra(FullscreenActivity.password);
+	    t = (TeachingAssistant)intent.getSerializableExtra("teachingAssistant");
 	    
 	    // Create the text view
 	    TextView textView = new TextView(this);
 	    textView.setTextSize(40);
-	    textView.setText(password);
  
 	    // Set the text view as the activity layout
 	   // setContentView(textView);
-	    init(userId, password);
+	    init();
 	}    
 
-	private void init(String username, String password) 
+	private void init() 
 	{
 			// Create the text view
 		    TextView textView = new TextView(this);
 		    textView.setTextSize(40);
-		    textView.setText("Coming Soon!");
+		    textView.setText("Welcome " + t.getUsername());
 	 
 		    // Set the text view as the activity layout
 		   setContentView(textView);			
