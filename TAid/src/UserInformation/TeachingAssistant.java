@@ -21,6 +21,15 @@ public class TeachingAssistant extends User implements Serializable
 		courses.add(c);
 	}
 	
+	public ArrayList<Course> getCourses()
+	{
+		return courses;
+	}
+	public int getCourseLoad()
+	{
+		return courses.size();
+	}
+	
 	public void printProfile()
 	{
 		

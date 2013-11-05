@@ -22,6 +22,16 @@ public class Course implements Serializable
 		tutorials.add(tutorial);
 		
 	}
+	
+	public int getTutorialLoad()
+	{
+		return tutorials.size();
+	}
+	
+	public ArrayList<Tutorial> getTutorials()
+	{
+		return tutorials;
+	}
 
 	public void printData() 
 	{
