@@ -178,7 +178,19 @@ public class FullscreenActivity extends Activity {
  private void submitForm(View view) 
  {
 	 String re = CheckAccount();
+	 // finds out if the user logged in is TA/Prof or doesn't exist in DB
+	 // 1 for Professor; 2 for TA
 	 if (re.equals("1"))
+	 {
+		  // Submit form here. form is valid
+			 		Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+			 		System.out.println("hhhhehe~!~!~!~!~!~!~!");
+			 		//successful login, go to the welcome screen
+					Intent intent = new Intent(this, Welcome.class);
+				    intent.putExtra("Professor", prof);
+				    startActivity(intent);
+	 }
+	 else if (re.equals("2"))
 	 {
 		  // Submit form here. form is valid
 			 		Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
@@ -206,31 +218,39 @@ private boolean checkValidation()
 private String CheckAccount() 
  {
 	 System.out.println("Check account method.");
-	 String address = "173.206.206.28";
+	 // ip of the server running on
+	 String address = "192.168.43.12";
+	 //allows running server on main thread
      if (android.os.Build.VERSION.SDK_INT > 9) 
      {
     	    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
     	    StrictMode.setThreadPolicy(policy);
      }
+     
      String result = "";
      EditText editText = (EditText) findViewById(R.id.user_id);
 	 EditText pass = (EditText) findViewById(R.id.password);
+	 //get the username and password the user entered
 	 String username = editText.getText().toString();
 	 String passwords = pass.getText().toString();
      Socket clientSocket;
      
      try 
      {
+    	//connect to the server
      	clientSocket = new Socket(address, 6889);
 		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		PrintWriter printwriter = new PrintWriter(clientSocket.getOutputStream(),true);
+		//write the credentials to the server for verification
 		printwriter.println("login");
 		printwriter.println(username);
 		printwriter.println(passwords);
 		result = in.readLine();
-		if (result.equals("1"))
+		//check whether the user, if successful, is TA or Prof
+		if (result.equals("2"))
 		{
-	        ObjectInputStream out = new ObjectInputStream(clientSocket.getInputStream());
+			ObjectInputStream out = new ObjectInputStream(clientSocket.getInputStream());
+			//create a TA object
 	        t = (TeachingAssistant)out.readObject();
 	        out.close();
 	        if (t != null)
@@ -242,6 +262,7 @@ private String CheckAccount()
 		else if (result.equals("1"))
 		{
 	        ObjectInputStream out = new ObjectInputStream(clientSocket.getInputStream());
+	        //create a professor object
 	        prof = (Professor)out.readObject();
 	        out.close();
 	        if (prof != null)
@@ -250,6 +271,7 @@ private String CheckAccount()
 		    textView.setText("working!!");
 	        }
 		} 
+		// end the server connection
 		clientSocket.close();
 		in.close();
 		printwriter.close();
@@ -259,7 +281,7 @@ private String CheckAccount()
      }
 	return result;
  }
- 
+ //Registration activity. Goes to the registration form.
  private void Register(View view) {
 			Intent intent = new Intent(this, RegisterActivity.class);
 		    startActivity(intent);   
