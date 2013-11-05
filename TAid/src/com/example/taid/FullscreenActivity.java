@@ -8,6 +8,7 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
+import UserInformation.Professor;
 import UserInformation.TeachingAssistant;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
@@ -43,6 +44,7 @@ public class FullscreenActivity extends Activity {
 	private Exception exception;
     private Button btnReg;
     private TeachingAssistant t;
+    private Professor prof;
  
 	public final static String userId = "com.example.TAid.MESSAGE";
 	public final static String password = "com.example.TAid.MESSAGE";
@@ -204,7 +206,7 @@ private boolean checkValidation()
 private String CheckAccount() 
  {
 	 System.out.println("Check account method.");
-	 String address = "135.23.105.149";
+	 String address = "173.206.206.28";
      if (android.os.Build.VERSION.SDK_INT > 9) 
      {
     	    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -219,7 +221,7 @@ private String CheckAccount()
      
      try 
      {
-     	clientSocket = new Socket(address, 50857);
+     	clientSocket = new Socket(address, 6889);
 		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		PrintWriter printwriter = new PrintWriter(clientSocket.getOutputStream(),true);
 		printwriter.println("login");
@@ -237,6 +239,17 @@ private String CheckAccount()
 		    textView.setText("working!!");
 	        }
 		}
+		else if (result.equals("1"))
+		{
+	        ObjectInputStream out = new ObjectInputStream(clientSocket.getInputStream());
+	        prof = (Professor)out.readObject();
+	        out.close();
+	        if (prof != null)
+	        {
+		    TextView textView = (TextView)findViewById(R.id.fullscreen_content);
+		    textView.setText("working!!");
+	        }
+		} 
 		clientSocket.close();
 		in.close();
 		printwriter.close();

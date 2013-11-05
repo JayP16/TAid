@@ -38,8 +38,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int splash_background=0x7f020002;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f09000d;
-        public static final int action_settings=0x7f09000c;
+        public static final int action_forgot_password=0x7f090015;
+        public static final int action_settings=0x7f090014;
+        public static final int changePassButton=0x7f090013;
+        public static final int courseButton=0x7f090012;
+        public static final int courseDisplay=0x7f09000c;
+        public static final int createLessonButton=0x7f090010;
+        public static final int displayLessonButton=0x7f09000f;
         public static final int email=0x7f090009;
         public static final int fullscreen_content=0x7f090000;
         public static final int fullscreen_content_controls=0x7f090001;
@@ -50,14 +55,19 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int password=0x7f090003;
         public static final int register=0x7f090005;
         public static final int register_button=0x7f09000b;
+        public static final int stuListButton=0x7f09000e;
         public static final int submit=0x7f090004;
+        public static final int tutorialDisplay=0x7f09000d;
         public static final int user_id=0x7f090002;
+        public static final int welcomeTv=0x7f090011;
     }
     public static final class layout {
         public static final int activity_display_message=0x7f030000;
         public static final int activity_fullscreen=0x7f030001;
         public static final int activity_register=0x7f030002;
         public static final int splash=0x7f030003;
+        public static final int tutmanager=0x7f030004;
+        public static final int welcome=0x7f030005;
     }
     public static final class menu {
         public static final int display_message=0x7f080000;

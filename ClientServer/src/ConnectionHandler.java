@@ -13,6 +13,7 @@ import java.net.Socket;
 import java.util.Scanner;
 
 import UserInformation.Course;
+import UserInformation.Professor;
 import UserInformation.TeachingAssistant;
 import UserInformation.Tutorial;
 
@@ -33,6 +34,13 @@ public class ConnectionHandler implements Runnable
 		TeachingAssistant t = new TeachingAssistant(username, password);
 		createCourses(t);
 		return t;
+	}
+	
+	private Professor createProf(String username, String password) throws IOException
+	{
+		Professor prof = new Professor(username, password);
+		//createCourses(prof);
+		return prof;
 	}
 	
 	private void createCourses(TeachingAssistant t) throws IOException
@@ -69,7 +77,7 @@ public class ConnectionHandler implements Runnable
 		//Read lesson plan student list and such from the tutorial directory and populate them into the tutorial object
 		
 	}
-	public boolean checkAccount(String user, String pass)
+	public int checkAccount(String user, String pass)
 	{
 		BufferedReader br = null;
 		try {
@@ -84,10 +92,11 @@ public class ConnectionHandler implements Runnable
 				{
 					if (pass.equals(splitArray[1]))
 					{
-						return true;
+						System.out.println(Integer.parseInt(splitArray[2]));
+						return Integer.parseInt(splitArray[2]);
 					}
 					br.close();
-					return false;
+					return 0;
 				}
 			}
 
@@ -101,7 +110,7 @@ public class ConnectionHandler implements Runnable
 			}
 
 		}
-		return false;
+		return 0;
 	}
 
 	public void run()
@@ -117,7 +126,16 @@ public class ConnectionHandler implements Runnable
 			        String username = in.readLine();
 			        String password = in.readLine();
 			        System.out.println("Username: " + username + "\nPassword: " + password);
-			        if (checkAccount(username, password))
+			        if (checkAccount(username, password) == 1)
+			        {
+	                            System.out.println("The user has logged in!!");
+	                            Professor prof = createProf(username, password);
+	                            prof.printProfile();
+	                            out.println("1");
+	                            ObjectOutputStream objectOut = new ObjectOutputStream(soc.getOutputStream());
+	                    	    objectOut.writeObject(prof);
+			        }
+			        else if (checkAccount(username, password) == 2)
 			        {
 	                            System.out.println("The user has logged in!!");
 	                            TeachingAssistant t = createTA(username, password);
