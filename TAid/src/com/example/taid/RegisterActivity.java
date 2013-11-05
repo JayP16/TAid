@@ -209,6 +209,7 @@ public class RegisterActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
 			String result = "";
+			//server ip address
 			String address = "135.23.105.149";
 			try 
 			{
@@ -216,6 +217,7 @@ public class RegisterActivity extends Activity {
 			    clientSocket = new Socket(address, 50857);
 				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				PrintWriter printwriter = new PrintWriter(clientSocket.getOutputStream(),true);
+				//write the registration information to the server, to add to DB
 				printwriter.println("register");
 				printwriter.println(mEmail);
 				printwriter.println(mPassword);
@@ -250,12 +252,11 @@ public class RegisterActivity extends Activity {
 			showProgress(false);
 
 			if (success) {
-
+				//registration finished successfully
 				Toast.makeText(RegisterActivity.this, "Registered.", Toast.LENGTH_LONG).show();
 				finish();
 			} else {
-				mPasswordView
-						.setError(getString(R.string.error_incorrect_password));
+				mPasswordView.setError(getString(R.string.error_incorrect_password));
 				mPasswordView.requestFocus();
 			}
 		}
