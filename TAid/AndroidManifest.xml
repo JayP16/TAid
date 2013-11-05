@@ -48,6 +48,42 @@
             android:noHistory="true"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
+        
+        <activity
+            android:name=".Welcome"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.taid.WELCOME" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".DisplayCourses"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.taid.DISPLAYCOURSES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".DisplayTutorials"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.taid.DISPLAYTUTORIALS" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name=".TutorialManager"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.taid.TutorialManager" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
