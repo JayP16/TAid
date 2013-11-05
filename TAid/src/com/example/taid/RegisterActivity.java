@@ -209,9 +209,11 @@ public class RegisterActivity extends Activity {
 		protected Boolean doInBackground(Void... params) {
 			// TODO: attempt authentication against a network service.
 			String result = "";
-			try {
+			String address = "135.23.105.149";
+			try 
+			{
 				Socket clientSocket;
-			    clientSocket = new Socket("173.206.206.238", 6889);
+			    clientSocket = new Socket(address, 50857);
 				BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 				PrintWriter printwriter = new PrintWriter(clientSocket.getOutputStream(),true);
 				printwriter.println("register");
@@ -221,7 +223,8 @@ public class RegisterActivity extends Activity {
 				clientSocket.close();
 				in.close();
 				printwriter.close();
-			} catch (UnknownHostException e) {
+			} 
+			catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (IOException e) {

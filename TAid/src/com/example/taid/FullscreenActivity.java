@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.os.StrictMode;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -53,9 +54,9 @@ public class FullscreenActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         
-
+    	super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fullscreen);
-        super.onCreate(savedInstanceState);
+        System.out.println("created activitayy");
         final View controlsView = findViewById(R.id.fullscreen_content_controls);
         final View contentView = findViewById(R.id.fullscreen_content);
 
@@ -178,8 +179,8 @@ public class FullscreenActivity extends Activity {
 	 if (re.equals("1"))
 	 {
 		  // Submit form here. form is valid
-			 	Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
-					Intent intent = new Intent(this, DisplayMessageActivity.class);
+			 		Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
+					Intent intent = new Intent(this, Welcome.class);
 				    intent.putExtra("teachingAssistant", t);
 				    startActivity(intent);
 	 }
@@ -202,7 +203,8 @@ private boolean checkValidation()
  @SuppressLint("NewApi")
 private String CheckAccount() 
  {
-	 String address = "192.168.0.105";
+	 System.out.println("Check account method.");
+	 String address = "135.23.105.149";
      if (android.os.Build.VERSION.SDK_INT > 9) 
      {
     	    StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
@@ -217,7 +219,7 @@ private String CheckAccount()
      
      try 
      {
-     	clientSocket = new Socket(address, 6789);
+     	clientSocket = new Socket(address, 50857);
 		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 		PrintWriter printwriter = new PrintWriter(clientSocket.getOutputStream(),true);
 		printwriter.println("login");
@@ -228,10 +230,11 @@ private String CheckAccount()
 		{
 	        ObjectInputStream out = new ObjectInputStream(clientSocket.getInputStream());
 	        t = (TeachingAssistant)out.readObject();
+	        out.close();
 	        if (t != null)
 	        {
 		    TextView textView = (TextView)findViewById(R.id.fullscreen_content);
-		    textView.setText(t.getUsername());
+		    textView.setText("working!!");
 	        }
 		}
 		clientSocket.close();
