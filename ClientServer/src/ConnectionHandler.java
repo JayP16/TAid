@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
@@ -116,39 +117,38 @@ public class ConnectionHandler implements Runnable
 	public void run()
 	{
 		System.out.println("Someone is trying to login...");
-		BufferedReader in;
 		try {
-                in = new BufferedReader(new InputStreamReader(soc.getInputStream()));
-                PrintWriter out = new PrintWriter(soc.getOutputStream(), true);
-                String cmd = in.readLine();
+				ObjectOutputStream out = new ObjectOutputStream(soc.getOutputStream());
+                ObjectInputStream in = new ObjectInputStream(soc.getInputStream());
+                
+                String cmd = (String)in.readObject();
                 if (cmd.equals("login"))
                 {
-			        String username = in.readLine();
-			        String password = in.readLine();
+			        String username = (String)in.readObject();
+			        String password = (String)in.readObject();
+			        
 			        System.out.println("Username: " + username + "\nPassword: " + password);
+			        
 			        if (checkAccount(username, password) == 1)
 			        {
 	                            System.out.println("The user has logged in!!");
 	                            Professor prof = createProf(username, password);
 	                            prof.printProfile();
-	                            out.println("1");
-	                            ObjectOutputStream objectOut = new ObjectOutputStream(soc.getOutputStream());
-	                    	    objectOut.writeObject(prof);
+	                            
+	                            out.writeObject("1");
+	                    	    out.writeObject(prof);
 			        }
 			        else if (checkAccount(username, password) == 2)
 			        {
 	                            System.out.println("The user has logged in!!");
 	                            TeachingAssistant t = createTA(username, password);
 	                            t.printProfile();
-	                            out.println("2");
-	                            ObjectOutputStream objectOut = new ObjectOutputStream(soc.getOutputStream());
-	                    	    objectOut.writeObject(t);
-	                    	    System.out.println("WROTE IT!!");
+	                            out.writeObject("2");                         
+	                    	    out.writeObject(t);
 			        }
 			        else
 			        {
 	                            System.out.println("Invalid login credentials...");
-	                            out.println("0");
 			        }
 			        soc.close();
 			        in.close();
@@ -156,19 +156,22 @@ public class ConnectionHandler implements Runnable
                 }
                 else if (cmd.equals("register"))
                 {
-                        String username = in.readLine();
+                        /**String username = in.readLine();
                         String password = in.readLine();
                         String toAdd = username + " " + password;
                         System.out.println(toAdd);
                         System.out.println("Registering...");
                         registerUser(toAdd);
-                        out.println("1");
+                        out.println("1");*/
                 }
                 else
                 {
-                        out.println("invalid");
+                        //out.println("invalid");
                 }
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
