@@ -271,6 +271,45 @@ private String CheckAccount()
 		    textView.setText("working!!");
 	        }
 		} 
+		//Basic Notification
+		//Get the current year,month,day and time
+	    Calendar c = Calendar.getInstance(); 
+		int day = c.get(Calendar.DATE);
+		int month = c.get(Calendar.MONTH);
+		int year = c.get(Calendar.YEAR);
+		int time = c.get(Calendar.HOUR_OF_DAY);
+		int sec = c.get(Calendar.SECOND);
+		//------------------------
+		//building notification
+		NotificationCompat.Builder mBuilder =
+		new NotificationCompat.Builder(this)
+		.setSmallIcon(R.drawable.bk_red)
+		.setContentTitle("notification")
+		.setContentText("Current time is "+year+" "+month+" "+day+" "+time);
+		//-------------------
+		//Go back to the app on click
+		Intent resultIntent = new Intent(this, FullscreenActivity.class);
+		PendingIntent resultPendingIntent =
+		    PendingIntent.getActivity(
+		    this,
+		    0,
+		    resultIntent,
+		    PendingIntent.FLAG_UPDATE_CURRENT
+		);
+		
+		//-------------------
+		mBuilder.setContentIntent(resultPendingIntent);
+		//------------
+		// Sets an ID for the notification
+		int mNotificationId = 001;
+		// Gets an instance of the NotificationManager service
+		NotificationManager mNotifyMgr = 
+		        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+		// Builds the notification and issues it.
+		mNotifyMgr.notify(mNotificationId, mBuilder.build());
+		//--------------------
+		//Notification
+		
 		// end the server connection
 		clientSocket.close();
 		in.close();
