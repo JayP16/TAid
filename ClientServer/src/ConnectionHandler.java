@@ -140,7 +140,7 @@ public class ConnectionHandler implements Runnable
 	                            System.out.println("The user has logged in!!");
 	                            TeachingAssistant t = createTA(username, password);
 	                            t.printProfile();
-	                            out.println("1");
+	                            out.println("2");
 	                            ObjectOutputStream objectOut = new ObjectOutputStream(soc.getOutputStream());
 	                    	    objectOut.writeObject(t);
 	                    	    System.out.println("WROTE IT!!");
