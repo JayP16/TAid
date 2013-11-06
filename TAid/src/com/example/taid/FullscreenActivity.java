@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -186,9 +187,9 @@ public class FullscreenActivity extends Activity {
 			 		Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
 			 		System.out.println("hhhhehe~!~!~!~!~!~!~!");
 			 		//successful login, go to the welcome screen
-					Intent intent = new Intent(this, Welcome.class);
+					/**Intent intent = new Intent(this, Welcome.class);
 				    intent.putExtra("Professor", prof);
-				    startActivity(intent);
+				    startActivity(intent);*/
 	 }
 	 else if (re.equals("2"))
 	 {
@@ -219,7 +220,7 @@ private String CheckAccount()
  {
 	 System.out.println("Check account method.");
 	 // ip of the server running on
-	 String address = "192.168.43.12";
+	 String address = "142.1.85.168";
 	 //allows running server on main thread
      if (android.os.Build.VERSION.SDK_INT > 9) 
      {
@@ -239,20 +240,22 @@ private String CheckAccount()
      {
     	//connect to the server
      	clientSocket = new Socket(address, 6889);
-		BufferedReader in = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-		PrintWriter printwriter = new PrintWriter(clientSocket.getOutputStream(),true);
+		ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+		ObjectOutputStream printwriter = new ObjectOutputStream(clientSocket.getOutputStream());
+		
 		//write the credentials to the server for verification
-		printwriter.println("login");
-		printwriter.println(username);
-		printwriter.println(passwords);
-		result = in.readLine();
+		printwriter.writeObject("login");
+		printwriter.writeObject(username);
+		printwriter.writeObject(passwords);
+		
+		result = (String)in.readObject();
+
+		System.out.println("Received results: " + result);
 		//check whether the user, if successful, is TA or Prof
 		if (result.equals("2"))
 		{
-			ObjectInputStream out = new ObjectInputStream(clientSocket.getInputStream());
 			//create a TA object
-	        t = (TeachingAssistant)out.readObject();
-	        out.close();
+	        t = (TeachingAssistant)in.readObject();
 	        if (t != null)
 	        {
 		    TextView textView = (TextView)findViewById(R.id.fullscreen_content);
@@ -261,10 +264,8 @@ private String CheckAccount()
 		}
 		else if (result.equals("1"))
 		{
-	        ObjectInputStream out = new ObjectInputStream(clientSocket.getInputStream());
 	        //create a professor object
-	        prof = (Professor)out.readObject();
-	        out.close();
+	        prof = (Professor)in.readObject();
 	        if (prof != null)
 	        {
 		    TextView textView = (TextView)findViewById(R.id.fullscreen_content);
