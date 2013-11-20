@@ -1,27 +1,25 @@
 package com.example.taid;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
 import java.net.Socket;
-import java.net.UnknownHostException;
+import java.util.Calendar;
 
 import UserInformation.Professor;
 import UserInformation.TeachingAssistant;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -42,8 +40,7 @@ public class FullscreenActivity extends Activity {
     private EditText userName;
     private EditText passw;
     private Button btnSubmit;
-	private Exception exception;
-    private Button btnReg;
+	private Button btnReg;
     private TeachingAssistant t;
     private Professor prof;
  
@@ -187,9 +184,10 @@ public class FullscreenActivity extends Activity {
 			 		Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
 			 		System.out.println("hhhhehe~!~!~!~!~!~!~!");
 			 		//successful login, go to the welcome screen
-					/**Intent intent = new Intent(this, Welcome.class);
+					Intent intent = new Intent(this, WelcomeProf.class);
 				    intent.putExtra("Professor", prof);
-				    startActivity(intent);*/
+				    intent.putExtra("Result", re);
+				    startActivity(intent);
 	 }
 	 else if (re.equals("2"))
 	 {
@@ -197,6 +195,7 @@ public class FullscreenActivity extends Activity {
 			 		Toast.makeText(this, "Login Successful", Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(this, Welcome.class);
 				    intent.putExtra("teachingAssistant", t);
+				    intent.putExtra("Result", re);
 				    startActivity(intent);
 	 }
 	 else
@@ -220,7 +219,7 @@ private String CheckAccount()
  {
 	 System.out.println("Check account method.");
 	 // ip of the server running on
-	 String address = "142.1.85.168";
+	 String address = "192.168.1.81";
 	 //allows running server on main thread
      if (android.os.Build.VERSION.SDK_INT > 9) 
      {
@@ -268,48 +267,12 @@ private String CheckAccount()
 	        prof = (Professor)in.readObject();
 	        if (prof != null)
 	        {
+	        
 		    TextView textView = (TextView)findViewById(R.id.fullscreen_content);
 		    textView.setText("working!!");
 	        }
 		} 
-		//Basic Notification
-		//Get the current year,month,day and time
-	    Calendar c = Calendar.getInstance(); 
-		int day = c.get(Calendar.DATE);
-		int month = c.get(Calendar.MONTH);
-		int year = c.get(Calendar.YEAR);
-		int time = c.get(Calendar.HOUR_OF_DAY);
-		int sec = c.get(Calendar.SECOND);
-		//------------------------
-		//building notification
-		NotificationCompat.Builder mBuilder =
-		new NotificationCompat.Builder(this)
-		.setSmallIcon(R.drawable.bk_red)
-		.setContentTitle("notification")
-		.setContentText("Current time is "+year+" "+month+" "+day+" "+time);
-		//-------------------
-		//Go back to the app on click
-		Intent resultIntent = new Intent(this, FullscreenActivity.class);
-		PendingIntent resultPendingIntent =
-		    PendingIntent.getActivity(
-		    this,
-		    0,
-		    resultIntent,
-		    PendingIntent.FLAG_UPDATE_CURRENT
-		);
 		
-		//-------------------
-		mBuilder.setContentIntent(resultPendingIntent);
-		//------------
-		// Sets an ID for the notification
-		int mNotificationId = 001;
-		// Gets an instance of the NotificationManager service
-		NotificationManager mNotifyMgr = 
-		        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-		// Builds the notification and issues it.
-		mNotifyMgr.notify(mNotificationId, mBuilder.build());
-		//--------------------
-		//Notification
 		
 		// end the server connection
 		clientSocket.close();
@@ -317,7 +280,7 @@ private String CheckAccount()
 		printwriter.close();
      } 
      catch (Exception e) {
-         this.exception = e;
+    	 e.printStackTrace();
      }
 	return result;
  }

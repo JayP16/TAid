@@ -1,14 +1,25 @@
 package UserInformation;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 
 
-public class Professor extends User implements Serializable
+public class Professor extends TeachingAssistant implements Serializable
 {
 	private ArrayList<Course> courses = new ArrayList<Course>();
+	private String address = "192.168.1.81";
 	public Professor(String username, String password) 
 	{
-		super(username, password);
+		super(username, password, 1);
+	}
+
+
+	public Professor() {
+		// TODO Auto-generated constructor stub
 	}
 
 	public void addEmptyCourse(String courseCode) 
@@ -47,6 +58,31 @@ public class Professor extends User implements Serializable
 			System.out.println("---------------------------------\n");
 		}
 		
+	}
+	
+	public void registerCourses(Professor prof, ArrayList<String> courses)
+	{
+		Socket clientSocket;
+		try 
+		{
+			clientSocket = new Socket(address, 6889);
+			ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+			ObjectOutputStream printwriter = new ObjectOutputStream(clientSocket.getOutputStream());
+			//write the registration information to the server, to add to DB
+			printwriter.writeObject("addProfCourses");
+			printwriter.writeObject(courses);
+			printwriter.writeObject(prof.getUsername());
+			clientSocket.close();
+			in.close();
+			printwriter.close();
+		}
+		catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 }

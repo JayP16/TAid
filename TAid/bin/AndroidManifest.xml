@@ -20,10 +20,10 @@
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
         <activity
             android:name="com.example.taid.FullscreenActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
@@ -32,12 +32,13 @@
             android:theme="@style/FullscreenTheme" >
             <intent-filter>
                 <action android:name="com.example.taid.FullscreenActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
         <activity
             android:name="com.example.taid.DisplayMessageActivity"
-            android:label="@string/title_activity_display_message">
+            android:label="@string/title_activity_display_message" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.taid.FullscreenActivity" />
@@ -48,41 +49,53 @@
             android:noHistory="true"
             android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
-        
         <activity
-            android:name=".Welcome"
+            android:name="com.example.taid.Welcome"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.example.taid.WELCOME" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
         <activity
-            android:name=".DisplayCourses"
+            android:name="com.example.taid.DisplayCourses"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.example.taid.DISPLAYCOURSES" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
         <activity
-            android:name=".DisplayTutorials"
+            android:name="com.example.taid.DisplayTutorials"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.example.taid.DISPLAYTUTORIALS" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        
         <activity
-            android:name=".TutorialManager"
+            android:name="com.example.taid.TutorialManager"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="com.example.taid.TutorialManager" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name="com.example.taid.WelcomeProf"
+            android:label="@string/title_activity_welcome_prof" >
+        </activity>
+        <activity
+            android:name="com.example.taid.Notification"
+            android:label="@string/title_activity_notification" >
+        </activity>
+        <activity
+            android:name="com.example.taid.DisplayCoursesProf"
+            android:label="@string/title_activity_display_courses_prof" >
         </activity>
     </application>
 
