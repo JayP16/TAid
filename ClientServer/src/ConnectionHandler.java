@@ -17,6 +17,14 @@ import UserInformation.Course;
 import UserInformation.Professor;
 import UserInformation.TeachingAssistant;
 import UserInformation.Tutorial;
+import java.io.DataOutputStream;
+import java.io.FileOutputStream;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class ConnectionHandler implements Runnable
@@ -36,18 +44,25 @@ public class ConnectionHandler implements Runnable
 		createCourses(t);
 		return t;
 	}
-	
+
 	private Professor createProf(String username, String password) throws IOException
 	{
 		Professor prof = new Professor(username, password);
-		//createCourses(prof);
+		createCourses(prof);
 		return prof;
 	}
-	
+
 	private void createCourses(TeachingAssistant t) throws IOException
 	{
 		String username = t.getUsername();
-		BufferedReader br = new BufferedReader(new FileReader("Database/TA/" + username + "/courses.txt"));
+                BufferedReader br = null;
+                File path = new File("Database/" + t.getUserDir() + "/courses.txt");
+                try{
+                    br = new BufferedReader(new FileReader(path));
+                }catch (FileNotFoundException e){
+                    e.printStackTrace();
+                }
+
 		String currentLine;
 		String[] splitArray;
 		Course newCourse;
@@ -65,18 +80,18 @@ public class ConnectionHandler implements Runnable
 				{
 					Tutorial newTutorial = new Tutorial(splitArray[i]);
 					populateTutorial(splitArray[0], newTutorial);
-					newCourse.addTutorial(newTutorial);		
+					newCourse.addTutorial(newTutorial);
 				}
 				t.addCourse(newCourse);
 			}
 		}
-		
-		
+
+
 	}
-	private void populateTutorial(String courseCode, Tutorial tutorial) 
+	private void populateTutorial(String courseCode, Tutorial tutorial)
 	{
 		//Read lesson plan student list and such from the tutorial directory and populate them into the tutorial object
-		
+
 	}
 	public int checkAccount(String user, String pass)
 	{
@@ -120,30 +135,29 @@ public class ConnectionHandler implements Runnable
 		try {
 				ObjectOutputStream out = new ObjectOutputStream(soc.getOutputStream());
                 ObjectInputStream in = new ObjectInputStream(soc.getInputStream());
-                
+
                 String cmd = (String)in.readObject();
                 if (cmd.equals("login"))
                 {
 			        String username = (String)in.readObject();
 			        String password = (String)in.readObject();
-			        
+
 			        System.out.println("Username: " + username + "\nPassword: " + password);
-			        
-			        if (checkAccount(username, password) == 1)
+                                int accountType = checkAccount(username, password);
+			        if (accountType == 1)
 			        {
 	                            System.out.println("The user has logged in!!");
 	                            Professor prof = createProf(username, password);
 	                            prof.printProfile();
-	                            
 	                            out.writeObject("1");
 	                    	    out.writeObject(prof);
 			        }
-			        else if (checkAccount(username, password) == 2)
+			        else if (accountType == 2)
 			        {
 	                            System.out.println("The user has logged in!!");
 	                            TeachingAssistant t = createTA(username, password);
 	                            t.printProfile();
-	                            out.writeObject("2");                         
+	                            out.writeObject("2");
 	                    	    out.writeObject(t);
 			        }
 			        else
@@ -163,6 +177,51 @@ public class ConnectionHandler implements Runnable
                         System.out.println("Registering...");
                         registerUser(toAdd);
                         out.println("1");*/
+                }
+                else if (cmd.equals("getAllCourses"))
+                {
+                    List<String> lines = Files.readAllLines(Paths.get("Database/Courses/allCourses.txt"), Charset.defaultCharset());
+                    String[] allCourses = lines.toArray(new String[lines.size()]);
+
+                    Professor prof = (Professor)in.readObject();
+                    List<String> enrolled = Files.readAllLines(Paths.get("Database/" + prof.getUserDir() + "/courses.txt"), Charset.defaultCharset());
+                    String[] y = enrolled.toArray(new String[lines.size()]);
+                    //remove the courses the user is already registered in
+                    List<String> list = new ArrayList<String>();
+                    list.addAll(Arrays.asList(allCourses));
+                    list.removeAll(Arrays.asList(y));
+                    String[] x = list.toArray(new String[list.size()]);
+
+                    out.writeObject(x);
+                }
+                else if (cmd.equals("addProfCourses"))
+                {
+                    int i;
+                    ArrayList<String> courses = (ArrayList<String>)in.readObject();
+                    String username = (String)in.readObject();
+
+                    File theDir = new File("Database/Prof/" + username);
+                    if (!theDir.exists()){  // Checks that Directory/Folder Doesn't Exists!
+                        theDir.mkdir();
+                    }
+                    File coursesTxt = new File("Database/Prof/" + username + "/courses.txt");
+                    if (!coursesTxt.exists()){  // Checks that Directory/Folder Doesn't Exists!
+                        coursesTxt.createNewFile();
+                    }
+                    List<String> lines = Files.readAllLines(Paths.get("Database/Prof/" + username + "/courses.txt"), Charset.defaultCharset());
+                    String[] y = lines.toArray(new String[lines.size()]);
+
+                    List<String> list = new ArrayList<String>();
+                    list.addAll(Arrays.asList(courses.toArray(new String[list.size()])));
+                    list.removeAll(Arrays.asList(y));
+                    list.addAll(Arrays.asList(y));
+                    String[] x = list.toArray(new String[list.size()]);
+
+                    PrintWriter pw = new PrintWriter(coursesTxt);
+                    for(String s : x){
+                        pw.println(s);
+                    }
+                    pw.close();
                 }
                 else
                 {
