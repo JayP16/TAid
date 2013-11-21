@@ -77,6 +77,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name="com.example.taid.DisplayStudents"
+            android:label="@string/title_activity_display_students" >
+            <intent-filter>
+                <action android:name="com.example.taid.DISPLAYSTUDENTS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name="com.example.taid.TutorialManager"
             android:label="@string/app_name" >
             <intent-filter>
@@ -96,6 +105,35 @@
         <activity
             android:name="com.example.taid.DisplayCoursesProf"
             android:label="@string/title_activity_display_courses_prof" >
+        </activity>
+        <activity
+            android:name="com.example.taid.CreateLessonPlan"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.taid.CREATELESSONPLAN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.example.taid.DisplayLessonPlan"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.taid.DISPLAYLESSONPLAN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.example.taid.DisplayLessonPlans"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.taid.DISPLAYLESSONPLANS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
         </activity>
     </application>
 

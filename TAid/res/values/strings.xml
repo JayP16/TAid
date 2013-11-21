@@ -13,5 +13,7 @@
     <string name="title_activity_welcome_prof">WelcomeProf</string>
     <string name="title_activity_notification">Notification</string>
     <string name="title_activity_display_courses_prof">DisplayCoursesProf</string>
+    <string name="title_activity_display_students">DisplayStudents</string>
+    <string name="title_activity_create_lesson_plan">CreateLessonPlan</string>
 
 </resources>

@@ -5,6 +5,7 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Calendar;
 
+import UserInformation.Globals;
 import UserInformation.Professor;
 import UserInformation.TeachingAssistant;
 import android.annotation.SuppressLint;
@@ -217,9 +218,6 @@ private boolean checkValidation()
  @SuppressLint("NewApi")
 private String CheckAccount() 
  {
-	 System.out.println("Check account method.");
-	 // ip of the server running on
-	 String address = "192.168.1.81";
 	 //allows running server on main thread
      if (android.os.Build.VERSION.SDK_INT > 9) 
      {
@@ -238,7 +236,7 @@ private String CheckAccount()
      try 
      {
     	//connect to the server
-     	clientSocket = new Socket(address, 6889);
+     	clientSocket = new Socket(Globals.ipAddress, Globals.port);
 		ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 		ObjectOutputStream printwriter = new ObjectOutputStream(clientSocket.getOutputStream());
 		
@@ -258,7 +256,6 @@ private String CheckAccount()
 	        if (t != null)
 	        {
 		    TextView textView = (TextView)findViewById(R.id.fullscreen_content);
-		    textView.setText("working!!");
 	        }
 		}
 		else if (result.equals("1"))
@@ -269,7 +266,6 @@ private String CheckAccount()
 	        {
 	        
 		    TextView textView = (TextView)findViewById(R.id.fullscreen_content);
-		    textView.setText("working!!");
 	        }
 		} 
 		
