@@ -14,9 +14,12 @@ import java.net.Socket;
 import java.util.Scanner;
 
 import UserInformation.Course;
+import UserInformation.LessonPlan;
 import UserInformation.Professor;
+import UserInformation.Student;
 import UserInformation.TeachingAssistant;
 import UserInformation.Tutorial;
+
 import java.io.DataOutputStream;
 import java.io.FileOutputStream;
 import java.nio.charset.Charset;
@@ -91,6 +94,7 @@ public class ConnectionHandler implements Runnable
 	private void populateTutorial(String courseCode, Tutorial tutorial)
 	{
 		//Read lesson plan student list and such from the tutorial directory and populate them into the tutorial object
+		
 
 	}
 	public int checkAccount(String user, String pass)
@@ -223,20 +227,172 @@ public class ConnectionHandler implements Runnable
                     }
                     pw.close();
                 }
+                else if (cmd.equals("getStudentList"))
+                {
+                	String courseCode = (String)in.readObject();
+                	String tutSection = (String)in.readObject();
+                	createStudentListFile(courseCode, tutSection);
+                	ArrayList<Student> studentList = createStudentList(courseCode, tutSection);
+                	out.writeObject(studentList);
+                }
+                else if (cmd.equals("createLessonPlan"))
+                {
+                	//Create a lesson plan in the database
+                	//Respond to client whether the lesson plan was saved or not (0 or 1)
+                	System.out.println("Create Lesson plan");
+                	String courseCode = (String)in.readObject();
+                	System.out.println("Create Lesson plan");
+                	String tutSection = (String)in.readObject();
+                	System.out.println("Create Lesson plan");
+                	String header = (String)in.readObject();
+                	System.out.println("Create Lesson plan");
+                	String content = (String)in.readObject();
+                	System.out.println("Checking if file exists...");
+                	if (!lessonPlanExists(courseCode, tutSection, header))
+                	{
+                		String path = "Database/Courses/" + courseCode + "/" + tutSection + "/LessonPlans/" + header;
+                		System.out.println(content);
+                		createLessonPlan(path, content);
+                		out.writeObject("1");
+                	}
+                	else
+                	{
+                		System.out.println("Exists");
+                		out.writeObject("0");
+                	}
+                	
+                }
+                else if (cmd.equals("getLessonPlans"))
+                {
+                	String courseCode = (String)in.readObject();
+                	String tutSection = (String)in.readObject();
+                	File f = new File("Database/Courses/" + courseCode + "/" + tutSection + "/LessonPlans");
+                	File[] listOfFiles = f.listFiles();
+                	ArrayList<LessonPlan> lp = new ArrayList<LessonPlan>();
+                	String header;
+                	String content;
+                	for (int i = 0; i < listOfFiles.length; i++)
+                	{
+                		header = listOfFiles[i].getName();
+                		content = getLessonPlanContent(courseCode, tutSection, header);
+                		lp.add(new LessonPlan(header, content));
+                	}
+                	out.writeObject(lp);
+                }
                 else
                 {
+                	System.out.println("invalid command");
                         //out.println("invalid");
                 }
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
+	private String getLessonPlanContent(String courseCode, String tutSection, String header)
+	{
+    	String path = "Database/Courses/" + courseCode + "/" + tutSection + "/LessonPlans/" + header;
+        try {
+			BufferedReader br = new BufferedReader(new FileReader(path));
+			String currentLine;
+			String content = "";
+			while ((currentLine = br.readLine()) != null)
+			{
+				content += currentLine;
+				content += "\n";
+			}
+			content = content.trim();
+			br.close();
+			return content;
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
+        return "";
+	}
+	private void createLessonPlan(String path, String content)
+	{
+        try {
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(path, true)));
+			String[] splitArray;
+			splitArray = content.split("\\n");
+			for (int i = 0; i < splitArray.length; i++)
+			{
+				out.println(splitArray[i]);
+			}
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+			
+	}
+	private boolean lessonPlanExists(String courseCode, String tutSection, String lessonHeader)
+	{
+		File f = new File("Database/Courses/" + courseCode + "/" + tutSection + "/LessonPlans/" + lessonHeader);
+		if (f.exists())
+		{
+			return true;
+		}
+		return false;
+	}
+    private ArrayList<Student> createStudentList(String courseCode,
+			String tutSection) 
+	{
+    	String path = "Database/Courses/" + courseCode + "/" + tutSection + "/studentList.txt";
+    	ArrayList<Student> s = new ArrayList<Student>();
+        try {
+			BufferedReader br = new BufferedReader(new FileReader(path));
+			String currentLine;
+			String[] splitArray;
+			while ((currentLine = br.readLine()) != null)
+			{
+				splitArray = currentLine.split(",");
+				Student student = new Student(splitArray[0]);
+				//TODO add grades to student as well
+				s.add(student);
+			}
+			br.close();
+			return s;
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		}
 
-    private void registerUser(String toAdd) {
+		return null;
+	}
+	private void createStudentListFile(String courseCode, String tutSection) 
+    {
+    	String path = "Database/Courses/" + courseCode + "/" + tutSection + "/";
+		File f = new File(path + "studentList.txt");
+		if (!f.exists())
+		{
+	        try {
+	            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(path + "studentList.txt", true)));
+	            BufferedReader br = new BufferedReader(new FileReader(path + "groups.txt"));
+				String[] splitArray;
+				String currentLine;
+				while ((currentLine = br.readLine()) != null)
+				{
+					splitArray = currentLine.split(",");
+					for (int i = 0; i < splitArray.length; i++)
+					{
+						out.println(splitArray[i]);
+					}
+				}
+				br.close();
+	            out.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	        }
+		}
+		else
+		{
+			//TODO: add new utorids to the list
+		}
+		
+	}
+	private void registerUser(String toAdd) {
         try {
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("Database/LoginDatabase/login.txt", true)));
             out.println(toAdd);

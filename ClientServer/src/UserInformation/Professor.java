@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Professor extends TeachingAssistant implements Serializable
 {
 	private ArrayList<Course> courses = new ArrayList<Course>();
-	private String address = "192.168.1.81";
+	
 	public Professor(String username, String password)
 	{
 		super(username, password, 1);
@@ -65,7 +65,7 @@ public class Professor extends TeachingAssistant implements Serializable
 		Socket clientSocket;
 		try
 		{
-			clientSocket = new Socket(address, 6889);
+			clientSocket = new Socket(Globals.ipAddress, Globals.port);
 			ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 			ObjectOutputStream printwriter = new ObjectOutputStream(clientSocket.getOutputStream());
 			//write the registration information to the server, to add to DB

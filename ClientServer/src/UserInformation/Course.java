@@ -7,12 +7,10 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
 
-
 public class Course implements Serializable
 {
 	private String courseCode;
 	private ArrayList<Tutorial> tutorials = new ArrayList<Tutorial>();
-	private String address = "192.168.1.81";
 
 	public Course(String courseCode)
 	{
@@ -59,7 +57,7 @@ public class Course implements Serializable
 		Socket clientSocket;
 		try
 		{
-			clientSocket = new Socket(address, 6889);
+			clientSocket = new Socket(Globals.ipAddress, Globals.port);
 			ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 			ObjectOutputStream printwriter = new ObjectOutputStream(clientSocket.getOutputStream());
 			//write the registration information to the server, to add to DB
