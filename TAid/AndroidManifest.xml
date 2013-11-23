@@ -135,6 +135,18 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        
+        <activity
+            android:name="com.example.taid.EmailActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.taid.EMAILACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+                
     </application>
 
 </manifest>

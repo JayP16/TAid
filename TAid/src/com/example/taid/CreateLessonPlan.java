@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.view.View;
 public class CreateLessonPlan extends Activity implements View.OnClickListener{
 
@@ -25,8 +26,7 @@ public class CreateLessonPlan extends Activity implements View.OnClickListener{
 	private EditText header;
 	private EditText content;
 	private Button save;
-	private TextView tv;
-	private int newOrEdit;
+	private int newOrEdit; // creating new lesson plan from scratch = 0, 1 for edit
 	private LessonPlan lessonPlan;
 	
 	@Override
@@ -41,7 +41,6 @@ public class CreateLessonPlan extends Activity implements View.OnClickListener{
 	{
 		header = (EditText)findViewById(R.id.createLessonTitle);
 		content = (EditText)findViewById(R.id.createLessonContent);
-		tv = (TextView)findViewById(R.id.createLessonPlanResultTv);
 		save = (Button)findViewById(R.id.createLessonSaveButton);
 		save.setOnClickListener(this);
 		Intent i = getIntent();
@@ -76,6 +75,7 @@ public class CreateLessonPlan extends Activity implements View.OnClickListener{
 			//Notify the server that it's a create lesson plan command
 			//Send the lesson plan data to the server
 			printwriter.writeObject("createLessonPlan");
+			printwriter.writeObject(newOrEdit);
 			printwriter.writeObject(course.getCourseCode());
 			printwriter.writeObject(tutorial.getTutCode());
 			printwriter.writeObject(header.getText().toString());
@@ -85,9 +85,9 @@ public class CreateLessonPlan extends Activity implements View.OnClickListener{
 			String result = (String)in.readObject(); // 0 or 1 for successful save
 			System.out.println("Result: " + result);
 			if (result.equals("0"))
-				tv.setText("Could not save file!");
+				Toast.makeText(getApplicationContext(), "Filename exists", Toast.LENGTH_LONG).show();
 			else if (result.equals("1"))
-				tv.setText("Saved!");
+				Toast.makeText(getApplicationContext(), "Saved...", Toast.LENGTH_LONG).show();
 			
 			clientSocket.close();
 			in.close();

@@ -43,4 +43,10 @@
         android:layout_height="wrap_content"
         android:text="Edit Lesson Plan" />
 
+    <Button
+        android:id="@+id/emailProfessor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Emai Professor" />
+
 </LinearLayout>
