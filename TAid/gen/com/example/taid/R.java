@@ -38,15 +38,27 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int splash_background=0x7f020002;
     }
     public static final class id {
-        public static final int action_forgot_password=0x7f09001b;
-        public static final int action_settings=0x7f09001a;
+        public static final int action_forgot_password=0x7f090028;
+        public static final int action_settings=0x7f090027;
         public static final int addCourse=0x7f090011;
         public static final int changePassButton=0x7f090012;
         public static final int courseButton=0x7f090010;
-        public static final int courseDisplay=0x7f090015;
-        public static final int createLessonButton=0x7f090019;
-        public static final int displayLessonButton=0x7f090018;
+        public static final int courseDisplay=0x7f090020;
+        public static final int createLessonButton=0x7f090024;
+        public static final int createLessonContent=0x7f090014;
+        public static final int createLessonSaveButton=0x7f090015;
+        public static final int createLessonTitle=0x7f090013;
+        public static final int displayLessonButton=0x7f090023;
+        public static final int displayLessonContent=0x7f090017;
+        public static final int displayLessonHeader=0x7f090016;
+        public static final int editLessonButton=0x7f090025;
         public static final int email=0x7f090009;
+        public static final int emailBody=0x7f09001c;
+        public static final int emailProfessor=0x7f090026;
+        public static final int emailSendButton=0x7f09001d;
+        public static final int emailSubject=0x7f09001b;
+        public static final int emailSubjectTv=0x7f09001a;
+        public static final int emailTv=0x7f090018;
         public static final int fullscreen_content=0x7f090000;
         public static final int fullscreen_content_controls=0x7f090001;
         public static final int login=0x7f09000a;
@@ -54,16 +66,17 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int login_status=0x7f090006;
         public static final int login_status_message=0x7f090007;
         public static final int password=0x7f090003;
-        public static final int regCourses=0x7f090013;
+        public static final int profEmail=0x7f090019;
+        public static final int regCourses=0x7f09001e;
         public static final int register=0x7f090005;
         public static final int register_button=0x7f09000b;
         public static final int s_button=0x7f09000e;
-        public static final int stuListButton=0x7f090017;
+        public static final int stuListButton=0x7f090022;
         public static final int submit=0x7f090004;
         public static final int ta_email=0x7f09000c;
         public static final int ta_name=0x7f09000d;
-        public static final int tutorialDisplay=0x7f090016;
-        public static final int uploadCourseFile=0x7f090014;
+        public static final int tutorialDisplay=0x7f090021;
+        public static final int uploadCourseFile=0x7f09001f;
         public static final int user_id=0x7f090002;
         public static final int welcomeTv=0x7f09000f;
     }
@@ -73,43 +86,51 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int activity_register=0x7f030002;
         public static final int activity_ta=0x7f030003;
         public static final int activity_welcome_prof=0x7f030004;
-        public static final int show_all_courses=0x7f030005;
-        public static final int show_registered_courses=0x7f030006;
-        public static final int splash=0x7f030007;
-        public static final int tutmanager=0x7f030008;
-        public static final int welcome=0x7f030009;
+        public static final int createlesson=0x7f030005;
+        public static final int displaylessonplan=0x7f030006;
+        public static final int displaystudents=0x7f030007;
+        public static final int emailactivity=0x7f030008;
+        public static final int show_all_courses=0x7f030009;
+        public static final int show_registered_courses=0x7f03000a;
+        public static final int splash=0x7f03000b;
+        public static final int tutmanager=0x7f03000c;
+        public static final int welcome=0x7f03000d;
     }
     public static final class menu {
-        public static final int display_courses_prof=0x7f080000;
-        public static final int display_message=0x7f080001;
-        public static final int notification=0x7f080002;
-        public static final int register=0x7f080003;
-        public static final int welcome_prof=0x7f080004;
+        public static final int create_lesson_plan=0x7f080000;
+        public static final int display_courses_prof=0x7f080001;
+        public static final int display_message=0x7f080002;
+        public static final int display_students=0x7f080003;
+        public static final int notification=0x7f080004;
+        public static final int register=0x7f080005;
+        public static final int welcome_prof=0x7f080006;
     }
     public static final class string {
-        public static final int action_forgot_password=0x7f060011;
+        public static final int action_forgot_password=0x7f060013;
         public static final int action_settings=0x7f060004;
-        public static final int action_sign_in_register=0x7f06000f;
-        public static final int action_sign_in_short=0x7f060010;
+        public static final int action_sign_in_register=0x7f060011;
+        public static final int action_sign_in_short=0x7f060012;
         public static final int app_name=0x7f060000;
         public static final int dummy_content=0x7f060002;
-        public static final int error_field_required=0x7f060016;
-        public static final int error_incorrect_password=0x7f060015;
-        public static final int error_invalid_email=0x7f060013;
-        public static final int error_invalid_password=0x7f060014;
+        public static final int error_field_required=0x7f060018;
+        public static final int error_incorrect_password=0x7f060017;
+        public static final int error_invalid_email=0x7f060015;
+        public static final int error_invalid_password=0x7f060016;
         public static final int hello_world=0x7f060005;
         public static final int log_in=0x7f060006;
-        public static final int login_progress_signing_in=0x7f060012;
+        public static final int login_progress_signing_in=0x7f060014;
         public static final int pass=0x7f060008;
         /**  Strings related to login 
          */
-        public static final int prompt_email=0x7f06000d;
-        public static final int prompt_password=0x7f06000e;
+        public static final int prompt_email=0x7f06000f;
+        public static final int prompt_password=0x7f060010;
         public static final int reg=0x7f060007;
+        public static final int title_activity_create_lesson_plan=0x7f06000d;
         public static final int title_activity_display_courses_prof=0x7f06000b;
         public static final int title_activity_display_message=0x7f060003;
+        public static final int title_activity_display_students=0x7f06000c;
         public static final int title_activity_notification=0x7f06000a;
-        public static final int title_activity_register=0x7f06000c;
+        public static final int title_activity_register=0x7f06000e;
         public static final int title_activity_welcome_prof=0x7f060009;
         public static final int user_id=0x7f060001;
     }

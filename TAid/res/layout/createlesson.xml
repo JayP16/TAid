@@ -28,10 +28,4 @@
            android:layout_height="wrap_content"
            android:text="Save" />
 
-       <TextView
-           android:id="@+id/createLessonPlanResultTv"
-           android:layout_width="wrap_content"
-           android:layout_height="wrap_content"
-           android:text="TextView" />
-
 </LinearLayout>
