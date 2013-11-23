@@ -239,16 +239,13 @@ public class ConnectionHandler implements Runnable
                 {
                 	//Create a lesson plan in the database
                 	//Respond to client whether the lesson plan was saved or not (0 or 1)
-                	System.out.println("Create Lesson plan");
+                	int newOrEdit = (Integer)in.readObject();
                 	String courseCode = (String)in.readObject();
-                	System.out.println("Create Lesson plan");
                 	String tutSection = (String)in.readObject();
-                	System.out.println("Create Lesson plan");
                 	String header = (String)in.readObject();
-                	System.out.println("Create Lesson plan");
                 	String content = (String)in.readObject();
                 	System.out.println("Checking if file exists...");
-                	if (!lessonPlanExists(courseCode, tutSection, header))
+                	if (!lessonPlanExists(courseCode, tutSection, header) || newOrEdit == 1)
                 	{
                 		String path = "Database/Courses/" + courseCode + "/" + tutSection + "/LessonPlans/" + header;
                 		System.out.println(content);
@@ -257,8 +254,8 @@ public class ConnectionHandler implements Runnable
                 	}
                 	else
                 	{
-                		System.out.println("Exists");
-                		out.writeObject("0");
+	                		System.out.println("Exists");
+	                		out.writeObject("0");
                 	}
                 	
                 }
