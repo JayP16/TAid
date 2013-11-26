@@ -1,0 +1,12 @@
+kelsiegr,10
+jaypatel,5
+charliechan,2
+bofang,10
+richardluo,9
+bofang2,8
+kelsiegr,10
+jaypatel,5
+charliechan,2
+bofang,10
+richardluo,9
+bofang2,7

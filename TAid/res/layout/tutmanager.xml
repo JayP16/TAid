@@ -49,4 +49,10 @@
         android:layout_height="wrap_content"
         android:text="Emai Professor" />
 
+    <Button
+        android:id="@+id/addGradeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Grade" />
+
 </LinearLayout>
