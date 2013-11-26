@@ -13,13 +13,14 @@
            android:hint="Lesson Plan Title" />
 
       <EditText
-           android:id="@+id/createLessonContent"
-           android:layout_width="fill_parent"
-           android:layout_height="wrap_content"
-           android:ems="10"
-           android:gravity="top"
-           android:inputType="textMultiLine"
-           android:lines="13" >
+          android:id="@+id/createLessonContent"
+          android:layout_width="fill_parent"
+          android:layout_height="13dp"
+          android:ems="10"
+          android:gravity="top"
+          android:inputType="textMultiLine"
+          android:lines="13" >
+
        </EditText>
 
        <Button
