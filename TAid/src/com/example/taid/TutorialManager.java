@@ -30,6 +30,7 @@ public class TutorialManager extends Activity implements View.OnClickListener
 	private Button createLesson;
 	private Button editLesson;
 	private Button emailButton;
+	private Button addGradeButton;
 	
 	private TeachingAssistant t;
 	private Course c;
@@ -56,12 +57,14 @@ public class TutorialManager extends Activity implements View.OnClickListener
 		createLesson = (Button)findViewById(R.id.createLessonButton);
 		editLesson = (Button)findViewById(R.id.editLessonButton);
 		emailButton = (Button)findViewById(R.id.emailProfessor);
+		addGradeButton = (Button)findViewById(R.id.addGradeButton);
 		
 		studentList.setOnClickListener(this);
 		displayLesson.setOnClickListener(this);
 		createLesson.setOnClickListener(this);
 		editLesson.setOnClickListener(this);
 		emailButton.setOnClickListener(this);
+		addGradeButton.setOnClickListener(this);
 		
 		Intent i = getIntent();
 		t = (TeachingAssistant)i.getSerializableExtra("teachingAssistant");
@@ -158,6 +161,12 @@ public class TutorialManager extends Activity implements View.OnClickListener
 				System.out.println("hello world....");
 				Intent intent5 = new Intent(this, EmailActivity.class);
 				startActivity(intent5);
+				break;
+			case R.id.addGradeButton:
+				Intent intent6 = new Intent(this, AddGrade.class);
+				intent6.putExtra("course", c);
+				intent6.putExtra("tutorial", tut);
+				startActivity(intent6);
 				break;
 		}
 		

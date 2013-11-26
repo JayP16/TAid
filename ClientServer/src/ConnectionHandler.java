@@ -276,6 +276,42 @@ public class ConnectionHandler implements Runnable
                 	}
                 	out.writeObject(lp);
                 }
+                else if (cmd.equals("addAssignment"))
+                {
+                	String assignmentName = (String)in.readObject();
+                	String assignmentTotal = (String)in.readObject();                	
+                	
+                }
+                else if (cmd.equals("checkAssignmentName"))
+                {
+                	String courseCode = (String)in.readObject();
+                	String tutSection = (String)in.readObject();
+                	String assignmentName = (String)in.readObject();
+                	File f = new File("Database/Courses/" + courseCode + "/" + tutSection + "/Grades/" + assignmentName);
+                	if (f.exists())
+                		out.writeObject("1");
+                	else
+                		out.writeObject("0");
+                }
+                else if(cmd.equals("addGrades"))
+                {
+                	String courseCode = (String)in.readObject();
+                	String tutSection = (String)in.readObject();
+                	String assignmentName = (String)in.readObject();
+                	@SuppressWarnings("unchecked")
+					ArrayList<Student> students = (ArrayList<Student>)in.readObject();
+                	String path = "Database/Courses/" + courseCode + "/" + tutSection + "/Grades/" + assignmentName;
+                    try {
+            			PrintWriter printwriter = new PrintWriter(new BufferedWriter(new FileWriter(path + ".txt", true)));
+            			for (int i = 0; i < students.size(); i++)
+            			{
+            				printwriter.println(students.get(i).getUtorid() + "," + students.get(i).getGrade());
+            			}
+            			printwriter.close();
+            		} catch (IOException e) {
+            			e.printStackTrace();
+            		}          	
+                }
                 else
                 {
                 	System.out.println("invalid command");
@@ -386,6 +422,7 @@ public class ConnectionHandler implements Runnable
 		else
 		{
 			//TODO: add new utorids to the list
+			System.out.println("studentList.txt exists");
 		}
 		
 	}
