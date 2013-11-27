@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/generic_bg"
     android:orientation="vertical"
     android:padding="30dp" >
 
@@ -9,13 +10,15 @@
         android:id="@+id/courseDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Course:" />
+        android:text="Course:"
+        android:textColor="@color/red" />
 
     <TextView
         android:id="@+id/tutorialDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tutorial Section:" />
+        android:text="Tutorial Section:"
+        android:textColor="@color/red" />
 
     <Button
         android:id="@+id/stuListButton"
