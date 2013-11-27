@@ -1,0 +1,6 @@
+BranchProjectTracker__C\:\\Users\\Jay\\git\\Bo-Fangs-Angels\\.git_master=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<projects branch\="master">\r\n<project>\\ClientServer</project>\r\n<project>\\TAid</project>\r\n</projects>
+commit_dialog_history_messages=<?xml version\="1.0" encoding\="UTF-8"?>\r\n<messages>\r\n<message>Updated server handler file to accept professor logins.</message>\r\n<message>Updated file with comments.</message>\r\n<message>Updated with comments.</message>\r\n<message>Added Professor module on the server side.</message>\r\n</messages>
+eclipse.preferences.version=1
+resourcehistory_graph_split=500,500
+resourcehistory_rev_split=700,300
+show_initial_config_dialog=false
