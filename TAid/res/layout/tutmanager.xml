@@ -58,4 +58,10 @@
         android:layout_height="wrap_content"
         android:text="Add Grade" />
 
+    <Button
+        android:id="@+id/addGroupGradeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Group Grades" />
+
 </LinearLayout>

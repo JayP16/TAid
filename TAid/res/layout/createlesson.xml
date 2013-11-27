@@ -6,22 +6,23 @@
     android:orientation="vertical" >
 
     <EditText
+        android:id="@+id/createLessonTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:ems="10"
+        android:hint="Lesson Plan Title" />
+
+    <EditText
         android:id="@+id/createLessonContent"
         android:layout_width="fill_parent"
         android:layout_height="13dp"
+        android:layout_weight="0.88"
         android:ems="10"
         android:gravity="top"
         android:inputType="textMultiLine"
         android:lines="13" >
     </EditText>
-
-    <EditText
-        android:id="@+id/createLessonTitle"
-        android:layout_width="match_parent"
-        android:layout_height="107dp"
-        android:layout_marginTop="28dp"
-        android:ems="10"
-        android:hint="Lesson Plan Title" />
 
     <Button
         android:id="@+id/createLessonSaveButton"

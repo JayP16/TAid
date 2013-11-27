@@ -31,6 +31,7 @@ public class TutorialManager extends Activity implements View.OnClickListener
 	private Button editLesson;
 	private Button emailButton;
 	private Button addGradeButton;
+	private Button addGroupGradeButton;
 	
 	private TeachingAssistant t;
 	private Course c;
@@ -58,6 +59,7 @@ public class TutorialManager extends Activity implements View.OnClickListener
 		editLesson = (Button)findViewById(R.id.editLessonButton);
 		emailButton = (Button)findViewById(R.id.emailProfessor);
 		addGradeButton = (Button)findViewById(R.id.addGradeButton);
+		addGroupGradeButton = (Button)findViewById(R.id.addGroupGradeButton);
 		
 		studentList.setOnClickListener(this);
 		displayLesson.setOnClickListener(this);
@@ -65,6 +67,7 @@ public class TutorialManager extends Activity implements View.OnClickListener
 		editLesson.setOnClickListener(this);
 		emailButton.setOnClickListener(this);
 		addGradeButton.setOnClickListener(this);
+		addGroupGradeButton.setOnClickListener(this);
 		
 		Intent i = getIntent();
 		t = (TeachingAssistant)i.getSerializableExtra("teachingAssistant");
@@ -168,6 +171,11 @@ public class TutorialManager extends Activity implements View.OnClickListener
 				intent6.putExtra("tutorial", tut);
 				startActivity(intent6);
 				break;
+			case R.id.addGroupGradeButton:
+				Intent intent7 = new Intent(this, AddGroupGrade.class);
+				intent7.putExtra("course", c);
+				intent7.putExtra("tutorial", tut);
+				startActivity(intent7);
 		}
 		
 	}
