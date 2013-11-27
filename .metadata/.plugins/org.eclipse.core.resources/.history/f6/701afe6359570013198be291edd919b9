@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="30dp" >
+
+    <TextView
+        android:id="@+id/courseDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Course:" />
+
+    <TextView
+        android:id="@+id/tutorialDisplay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tutorial Section:" />
+
+    <Button
+        android:id="@+id/stuListButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:text="Student List" />
+
+    <Button
+        android:id="@+id/displayLessonButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Lesson Plans" 
+        android:layout_marginBottom="15dp"/>
+
+    <Button
+        android:id="@+id/createLessonButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create Lesson Plan" />
+
+    <Button
+        android:id="@+id/editLessonButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Edit Lesson Plan" />
+
+    <Button
+        android:id="@+id/emailProfessor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Emai Professor" />
+
+</LinearLayout>
