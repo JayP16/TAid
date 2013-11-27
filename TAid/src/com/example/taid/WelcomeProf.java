@@ -2,12 +2,10 @@ package com.example.taid;
 
 import UserInformation.Professor;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import android.util.Log;
 import android.view.View;
 
 public class WelcomeProf extends Activity implements View.OnClickListener

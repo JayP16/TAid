@@ -1,5 +1,6 @@
 package UserInformation;
 
+
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -87,6 +88,7 @@ public abstract class User implements Serializable
     	
 		return prof;
     }
+
 
 	protected void changePassword(String newPassword)
 	{

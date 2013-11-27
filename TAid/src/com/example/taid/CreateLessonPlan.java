@@ -7,7 +7,6 @@ import java.net.Socket;
 import UserInformation.Course;
 import UserInformation.Globals;
 import UserInformation.LessonPlan;
-import UserInformation.TeachingAssistant;
 import UserInformation.Tutorial;
 import android.os.Bundle;
 import android.app.Activity;
@@ -15,7 +14,6 @@ import android.content.Intent;
 import android.view.Menu;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.view.View;
 public class CreateLessonPlan extends Activity implements View.OnClickListener{

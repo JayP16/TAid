@@ -10,7 +10,11 @@ import java.util.ArrayList;
 
 public class Professor extends TeachingAssistant implements Serializable
 {
-	public Professor(String username, String password) 
+
+	private ArrayList<Course> courses = new ArrayList<Course>();
+	private String address = "192.168.1.81";
+
+	public Professor(String username, String password)
 	{
 		super(username, password, 1);
 	}
@@ -20,16 +24,16 @@ public class Professor extends TeachingAssistant implements Serializable
 		// TODO Auto-generated constructor stub
 	}
 
-	public void addEmptyCourse(String courseCode) 
+	public void addEmptyCourse(String courseCode)
 	{
 		courses.add(new Course(courseCode));
 	}
-	
+
 	public void addCourse(Course c)
 	{
 		courses.add(c);
 	}
-	
+
 	public ArrayList<Course> getCourses()
 	{
 		return courses;
@@ -38,38 +42,38 @@ public class Professor extends TeachingAssistant implements Serializable
 	{
 		return courses.size();
 	}
-	
+
 	public void printProfile()
 	{
-		
+
 		System.out.println("---------------------------------");
 		System.out.println("Login Information");
 		System.out.println("Username: " + username);
 		System.out.println("Password: " + password);
 		System.out.println("---------------------------------\n");
-		
-		
+
+
 		for (int i = 0; i < courses.size(); i++)
 		{
 			System.out.println("---------------------------------");
 			courses.get(i).printData();
 			System.out.println("---------------------------------\n");
 		}
-		
+
 	}
-	
+
 	public void registerCourses(Professor prof, ArrayList<String> courses)
 	{
 		Socket clientSocket;
-		try 
+		try
 		{
-			clientSocket = new Socket(address, port);
+			clientSocket = new Socket(address, Globals.port);
 			ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
 			ObjectOutputStream printwriter = new ObjectOutputStream(clientSocket.getOutputStream());
 			//write the registration information to the server, to add to DB
 			printwriter.writeObject("addProfCourses");
 			printwriter.writeObject(courses);
-			printwriter.writeObject(prof.getUsername());				
+			printwriter.writeObject(prof.getUsername());
 			clientSocket.close();
 			in.close();
 			printwriter.close();

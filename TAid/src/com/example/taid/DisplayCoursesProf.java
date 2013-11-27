@@ -89,13 +89,13 @@ public class DisplayCoursesProf extends ListActivity implements OnClickListener
 	{	
 		if (getIntent().getIntExtra("showAll", 0) == 0){
 			super.onListItemClick(l, v, position, id);
-//			if (t.getCourses().get(position).getTutorialLoad() >= 1)
-//			{
+			if (t.getCourses().get(position).getTutorialLoad() >= 1)
+			{
 				Intent intent = new Intent(this, DisplayTutorials.class);
 			    intent.putExtra("Professor", t);
 			    intent.putExtra("course", t.getCourses().get(position));
 			    startActivity(intent);
-//			}			
+			}
 		}
 	}
 	public void onClick(View v) {
@@ -144,7 +144,6 @@ public class DisplayCoursesProf extends ListActivity implements OnClickListener
 	}
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-       
         if (data == null)
             return;
         if (requestCode == PICKFILE_RESULT_CODE) {
@@ -158,6 +157,7 @@ public class DisplayCoursesProf extends ListActivity implements OnClickListener
     		    intent.putExtra("Professor", t);
     		    intent.putExtra("Result", 1);
     		    startActivity(intent);
+                System.out.println(FilePath);
             }
 		}
 	}

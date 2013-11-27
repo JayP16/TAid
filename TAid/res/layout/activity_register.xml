@@ -1,10 +1,12 @@
 <merge xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".RegisterActivity" >
+    tools:context=".RegisterActivity"
+    >
 
     <!-- Login progress -->
 
     <LinearLayout
+        android:background="@drawable/crumbled_paper"
         android:id="@+id/login_status"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -33,17 +35,20 @@
 
     <ScrollView
         android:id="@+id/login_form"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_width="320dp"
+        android:layout_height="match_parent"
+        android:background="@drawable/crumbled_paper" >
 
         <LinearLayout
             style="@style/LoginFormContainer"
+            android:layout_height="489dp"
             android:orientation="vertical" >
 
             <EditText
                 android:id="@+id/email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_weight="0.96"
                 android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress"
                 android:maxLines="1"
@@ -52,7 +57,7 @@
             <EditText
                 android:id="@+id/password"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:hint="@string/prompt_password"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="@string/action_sign_in_short"
@@ -71,6 +76,7 @@
                 android:paddingRight="32dp"
                 android:text="@string/action_sign_in_register" />
         </LinearLayout>
+
     </ScrollView>
 
 </merge>
