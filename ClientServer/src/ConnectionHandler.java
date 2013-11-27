@@ -82,7 +82,6 @@ public class ConnectionHandler implements Runnable
 				for (int i = 1; i < splitArray.length; i++)
 				{
 					Tutorial newTutorial = new Tutorial(splitArray[i]);
-					populateTutorial(splitArray[0], newTutorial);
 					newCourse.addTutorial(newTutorial);
 				}
 				t.addCourse(newCourse);
@@ -91,12 +90,7 @@ public class ConnectionHandler implements Runnable
 
 
 	}
-	private void populateTutorial(String courseCode, Tutorial tutorial)
-	{
-		//Read lesson plan student list and such from the tutorial directory and populate them into the tutorial object
-		
 
-	}
 	public int checkAccount(String user, String pass)
 	{
 		BufferedReader br = null;
@@ -231,9 +225,15 @@ public class ConnectionHandler implements Runnable
                 {
                 	String courseCode = (String)in.readObject();
                 	String tutSection = (String)in.readObject();
-                	createStudentListFile(courseCode, tutSection);
                 	ArrayList<Student> studentList = createStudentList(courseCode, tutSection);
                 	out.writeObject(studentList);
+                }
+                else if (cmd.equals("getGroups"))
+                {
+                	String courseCode = (String)in.readObject();
+                	String tutSection = (String)in.readObject();
+                	ArrayList<ArrayList<Student>> groups = createGroups(courseCode, tutSection);
+                	out.writeObject(groups);
                 }
                 else if (cmd.equals("createLessonPlan"))
                 {
@@ -276,11 +276,30 @@ public class ConnectionHandler implements Runnable
                 	}
                 	out.writeObject(lp);
                 }
-                else if (cmd.equals("addAssignment"))
+                else if (cmd.equals("getAssignments"))
                 {
-                	String assignmentName = (String)in.readObject();
-                	String assignmentTotal = (String)in.readObject();                	
+                	String courseCode = (String)in.readObject();
+                	String tutSection = (String)in.readObject();
+                	File f = new File("Database/Courses/" + courseCode + "/" + tutSection + "/Grades");
+                	File[] listOfFiles = f.listFiles();
+                	ArrayList<String> assignmentNames = new ArrayList<String>();
+                	String header;
+                	String content;
+                	for (int i = 0; i < listOfFiles.length; i++)
+                	{
+                		assignmentNames.add(listOfFiles[i].getName());
+                	}
+                	out.writeObject(assignmentNames);
                 	
+                }
+                else if (cmd.equals("getAssignmentTotal"))
+                {
+                	String courseCode = (String)in.readObject();
+                	String tutSection = (String)in.readObject();
+                	String assignmentName = (String)in.readObject();
+                	String path = "Database/Courses/" + courseCode + "/" + tutSection + "/Grades/" + assignmentName;
+                	String assignmentTotal = getAssignmentTotal(path);
+                	out.writeObject(assignmentTotal);
                 }
                 else if (cmd.equals("checkAssignmentName"))
                 {
@@ -298,11 +317,13 @@ public class ConnectionHandler implements Runnable
                 	String courseCode = (String)in.readObject();
                 	String tutSection = (String)in.readObject();
                 	String assignmentName = (String)in.readObject();
+                	String assignmentTotal = (String)in.readObject();
                 	@SuppressWarnings("unchecked")
 					ArrayList<Student> students = (ArrayList<Student>)in.readObject();
                 	String path = "Database/Courses/" + courseCode + "/" + tutSection + "/Grades/" + assignmentName;
                     try {
-            			PrintWriter printwriter = new PrintWriter(new BufferedWriter(new FileWriter(path + ".txt", true)));
+            			PrintWriter printwriter = new PrintWriter(new BufferedWriter(new FileWriter(path, true)));
+            			printwriter.println(assignmentTotal);
             			for (int i = 0; i < students.size(); i++)
             			{
             				printwriter.println(students.get(i).getUtorid() + "," + students.get(i).getGrade());
@@ -311,6 +332,26 @@ public class ConnectionHandler implements Runnable
             		} catch (IOException e) {
             			e.printStackTrace();
             		}          	
+                }
+                else if(cmd.equals("getStudentGrade"))
+                {
+                	String courseCode = (String)in.readObject();
+                	String tutSection = (String)in.readObject();
+                	String assignmentName = (String)in.readObject();
+                	String studentName = (String)in.readObject();
+                	String path = "Database/Courses/" + courseCode + "/" + tutSection + "/Grades/" + assignmentName;
+                	String grade = getStudentGrade(path, studentName);
+                	out.writeObject(grade);
+                }
+                else if(cmd.equals("changeGrade"))
+                {
+                	String courseCode = (String)in.readObject();
+                	String tutSection = (String)in.readObject();
+                	String assignmentName = (String)in.readObject();
+                	String studentName = (String)in.readObject();
+                	String newGrade = (String)in.readObject();
+                	String path = "Database/Courses/" + courseCode + "/" + tutSection + "/Grades/" + assignmentName;
+                	changeGrade(path, studentName, newGrade);
                 }
                 else
                 {
@@ -322,6 +363,136 @@ public class ConnectionHandler implements Runnable
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+	}
+	private void retrunGradeEmail(String courseCode, String tutSection)
+	{	
+		String email = "";
+		String path = "Database/Courses/" + courseCode + "/" + tutSection + "/Grades";
+    	File f = new File(path);
+    	File[] listOfFiles = f.listFiles();	
+    	for (int i = 0; i < listOfFiles.length; i++)
+    	{
+            try {
+    			BufferedReader br = new BufferedReader(new FileReader(path + "/" + listOfFiles[i].getName()));
+    			String assignmentTotal = br.readLine();
+    			email += listOfFiles[i].getName() + " / " + assignmentTotal + "\n";
+    			br.close();
+    		} catch (IOException e) 
+    		{
+    			e.printStackTrace();
+    		}
+    	}
+    	email += "\n"; //end the header portion
+    	
+        try {
+			BufferedReader studentReader = new BufferedReader(new FileReader
+					( "Database/Courses/" + courseCode + "/" + tutSection + "/studentList.txt"));
+			String currentLine;
+			String[] splitArray;
+			while ((currentLine = studentReader.readLine()) != null)
+			{
+				splitArray = currentLine.split(",");
+				email += splitArray[0] + " " + splitArray[1];
+				email += getAllGrades(splitArray[1], path) + "\n";
+			}
+			studentReader.close();
+		} catch (IOException e) 
+		{
+			e.printStackTrace();
+		} 	
+ 
+	}
+	
+	private String getAllGrades(String studentId, String path)
+	{
+		File f = new File(path);
+		File[] listOfFiles = f.listFiles();		
+    	for (int i = 0; i < listOfFiles.length; i++)
+    	{
+            try {
+    			BufferedReader br = new BufferedReader(new FileReader(path + "/" + listOfFiles[i].getName()));
+    			br.readLine();//skip assignment total
+    			    			br.close();
+    		} catch (IOException e) 
+    		{
+    			e.printStackTrace();
+    		}
+    	}
+		return "";
+	}
+	private void changeGrade(String path, String studentId, String newGrade)
+	{
+		String content = "";
+		try {
+			
+			String currentLine;
+			BufferedReader br = new BufferedReader(new FileReader(path));
+			content = content + br.readLine() + "\n";
+			String splitArray[];
+			while ((currentLine = br.readLine()) != null)
+			{
+				splitArray = currentLine.split(",");
+				if (splitArray[0].equals(studentId))
+				{
+					content = content + splitArray[0] + "," + newGrade + "\n";
+				}
+				else
+				{
+					content = content + currentLine + "\n";
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 	
+		
+        try {
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(path, false)));
+			out.write(content);
+			out.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	private String getStudentGrade(String path, String studentId)
+	{
+		try {
+
+			String currentLine;
+			BufferedReader br = new BufferedReader(new FileReader(path));
+			br.readLine(); // skip past assignment total
+			String splitArray[];
+			while ((currentLine = br.readLine()) != null)
+			{
+				splitArray = currentLine.split(",");
+				if (splitArray[0].equals(studentId))
+				{
+					br.close();
+					return splitArray[1];
+				}
+			}
+			br.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 		
+		return "";		
+	}
+	private String getAssignmentTotal(String path)
+	{
+		try {
+
+			String currentLine;
+			BufferedReader br = new BufferedReader(new FileReader(path));
+			if ((currentLine = br.readLine()) != null)
+			{
+				br.close();
+				return currentLine;
+			}
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 		
+		return "0";
 	}
 	private String getLessonPlanContent(String courseCode, String tutSection, String header)
 	{
@@ -347,13 +518,8 @@ public class ConnectionHandler implements Runnable
 	private void createLessonPlan(String path, String content)
 	{
         try {
-			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(path, true)));
-			String[] splitArray;
-			splitArray = content.split("\\n");
-			for (int i = 0; i < splitArray.length; i++)
-			{
-				out.println(splitArray[i]);
-			}
+			PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(path, false)));
+			out.write(content);
 			out.close();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -381,8 +547,7 @@ public class ConnectionHandler implements Runnable
 			while ((currentLine = br.readLine()) != null)
 			{
 				splitArray = currentLine.split(",");
-				Student student = new Student(splitArray[0]);
-				//TODO add grades to student as well
+				Student student = new Student(splitArray[1], splitArray[0]);
 				s.add(student);
 			}
 			br.close();
@@ -394,38 +559,35 @@ public class ConnectionHandler implements Runnable
 
 		return null;
 	}
-	private void createStudentListFile(String courseCode, String tutSection) 
+    
+    public ArrayList<ArrayList<Student>> createGroups(String courseCode, String tutSection)
     {
-    	String path = "Database/Courses/" + courseCode + "/" + tutSection + "/";
-		File f = new File(path + "studentList.txt");
-		if (!f.exists())
-		{
-	        try {
-	            PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(path + "studentList.txt", true)));
-	            BufferedReader br = new BufferedReader(new FileReader(path + "groups.txt"));
-				String[] splitArray;
-				String currentLine;
-				while ((currentLine = br.readLine()) != null)
+    	String path = "Database/Courses/" + courseCode + "/" + tutSection + "/groups.txt";
+    	ArrayList<ArrayList<Student>> groups = new ArrayList<ArrayList<Student>>();
+    	ArrayList<Student> group = new ArrayList<Student>();
+        try {
+			BufferedReader br = new BufferedReader(new FileReader(path));
+			String currentLine;
+			String[] splitArray;
+			while ((currentLine = br.readLine()) != null) // each line is a group
+			{
+				splitArray = currentLine.split(","); // split by comma gives each group member
+				for (int i = 0; i < splitArray.length; i++)
 				{
-					splitArray = currentLine.split(",");
-					for (int i = 0; i < splitArray.length; i++)
-					{
-						out.println(splitArray[i]);
-					}
+					group.add(new Student(splitArray[i])); //add each member to the group
 				}
-				br.close();
-	            out.close();
-	        } catch (IOException e) {
-	            e.printStackTrace();
-	        }
-		}
-		else
+				groups.add(group); //add the group to the list of groups
+				group = new ArrayList<Student>(); // reset group to prepare for next group
+			}
+			br.close();
+			return groups;
+		} catch (IOException e) 
 		{
-			//TODO: add new utorids to the list
-			System.out.println("studentList.txt exists");
+			e.printStackTrace();
 		}
-		
-	}
+    	return null;
+    }
+
 	private void registerUser(String toAdd) {
         try {
             PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter("Database/LoginDatabase/login.txt", true)));
