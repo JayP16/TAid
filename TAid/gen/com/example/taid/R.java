@@ -34,10 +34,13 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
     }
     public static final class drawable {
         public static final int bk_red=0x7f020000;
-        public static final int ic_launcher=0x7f020001;
-        public static final int login_bg=0x7f020002;
-        public static final int next=0x7f020003;
-        public static final int splash_background=0x7f020004;
+        public static final int crumbled_paper=0x7f020001;
+        public static final int generic_bg=0x7f020002;
+        public static final int ic_launcher=0x7f020003;
+        public static final int line_paper=0x7f020004;
+        public static final int login_bg=0x7f020005;
+        public static final int next=0x7f020006;
+        public static final int splash_background=0x7f020007;
     }
     public static final class id {
         public static final int action_forgot_password=0x7f090030;
@@ -52,9 +55,9 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int courseButton=0x7f090010;
         public static final int courseDisplay=0x7f090027;
         public static final int createLessonButton=0x7f09002b;
-        public static final int createLessonContent=0x7f09001b;
+        public static final int createLessonContent=0x7f09001a;
         public static final int createLessonSaveButton=0x7f09001c;
-        public static final int createLessonTitle=0x7f09001a;
+        public static final int createLessonTitle=0x7f09001b;
         public static final int displayLessonButton=0x7f09002a;
         public static final int displayLessonContent=0x7f09001e;
         public static final int displayLessonHeader=0x7f09001d;

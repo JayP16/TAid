@@ -4,6 +4,8 @@
 
         <LinearLayout
             style="@style/LoginFormContainer"
+            android:layout_height="461dp"
+            android:background="@drawable/crumbled_paper"
             android:orientation="vertical" >
 
             <EditText
