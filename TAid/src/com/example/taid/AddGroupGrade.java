@@ -23,7 +23,7 @@ import android.widget.TextView;
 import android.text.InputType;
 import android.view.View;
 
-public class AddGrade extends Activity implements View.OnClickListener
+public class AddGroupGrade extends Activity implements View.OnClickListener
 {
 
 	private EditText assignmentName;
@@ -34,8 +34,8 @@ public class AddGrade extends Activity implements View.OnClickListener
 	private Course course;
 	private Tutorial tut;
 	
-	private ArrayList<Student> students;
-	private ArrayList<EditText> studentGrades;
+	private ArrayList<ArrayList<Student>> groups;
+	private ArrayList<EditText> groupGrades;
 	
 	private Socket clientSocket;
 	private ObjectInputStream in;
@@ -76,22 +76,27 @@ public class AddGrade extends Activity implements View.OnClickListener
 	
 	private void initStudentList()
 	{
-		students = getStudentListFromServer();
-		studentGrades = new ArrayList<EditText>();
-		for (int i = 0; i < students.size(); i++)
+		groups = getGroupsFromServer();
+		groupGrades = new ArrayList<EditText>();
+		for (int i = 0; i < groups.size(); i++)
 		{
 			LinearLayout l = new LinearLayout(this);
 			l.setLayoutParams(new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
 			l.setOrientation(LinearLayout.HORIZONTAL);
 			
-			TextView studentName = new TextView(this);
-			studentName.setText(students.get(i).getUtorid());
-			l.addView(studentName);
+			TextView groupName = new TextView(this);
+			String groupMembers = "";
+			for (int j = 0; j < groups.get(i).size(); j++)
+			{
+				groupMembers += groups.get(i).get(j).getUtorid() + ",";
+			}
+			groupName.setText(groupMembers);
+			l.addView(groupName);
 			
-			EditText studentGrade = new EditText(this);
-			studentGrade.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
-			l.addView(studentGrade);
-			studentGrades.add(studentGrade);
+			EditText groupGrade = new EditText(this);
+			groupGrade.setInputType(InputType.TYPE_NUMBER_FLAG_DECIMAL);
+			l.addView(groupGrade);
+			groupGrades.add(groupGrade);
 			
 			studentListLayout.addView(l);
 		}
@@ -109,7 +114,6 @@ public class AddGrade extends Activity implements View.OnClickListener
 			e.printStackTrace();
 		}
 	}
-	
 	private void writeCourseTutInfo()
 	{
 		try {
@@ -118,8 +122,7 @@ public class AddGrade extends Activity implements View.OnClickListener
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
+	}	
 	private void closeConnections()
 	{
 		try {
@@ -130,7 +133,6 @@ public class AddGrade extends Activity implements View.OnClickListener
 			e.printStackTrace();
 		}
 	}
-	
 	private void writeCommand(String cmd)
 	{
 		try {
@@ -140,16 +142,16 @@ public class AddGrade extends Activity implements View.OnClickListener
 		}
 	}
 	
-	private ArrayList<Student> getStudentListFromServer()
+	private ArrayList<ArrayList<Student>> getGroupsFromServer()
 	{
 		try {
 			initSocketStreams();
-			writeCommand("getStudentList");
+			writeCommand("getGroups");
 			writeCourseTutInfo();
 			@SuppressWarnings("unchecked")
-			ArrayList<Student> students = (ArrayList<Student>)in.readObject();
+			ArrayList<ArrayList<Student>> groups = (ArrayList<ArrayList<Student>>)in.readObject();
 			closeConnections();
-			return students;
+			return groups;
 		} 
 		catch (Exception e) {
 			e.printStackTrace();
@@ -181,15 +183,15 @@ public class AddGrade extends Activity implements View.OnClickListener
 			return true; 
 		}
 		
-		for (int i = 0; i < studentGrades.size(); i++)
+		for (int i = 0; i < groupGrades.size(); i++)
 		{
 			try
 			{
-				Integer.parseInt(studentGrades.get(i).getText().toString());
+				Integer.parseInt(groupGrades.get(i).getText().toString());
 			}
 			catch(NumberFormatException e)
 			{
-				Toast.makeText(getApplicationContext(), "Invalid Student Grade: " + students.get(i).getUtorid(), Toast.LENGTH_LONG).show();
+				Toast.makeText(getApplicationContext(), "A Group Grade Is Invalid", Toast.LENGTH_LONG).show();
 				return true;
 			}
 		}
@@ -215,16 +217,33 @@ public class AddGrade extends Activity implements View.OnClickListener
 		return true;			
 	}
 	
-	private void addGradesToStudents()
+	private void addGradesToGroups()
 	{
-		for (int i = 0; i < studentGrades.size(); i++)
+		for (int i = 0; i < groupGrades.size(); i++)
 		{
-			students.get(i).setGrade(studentGrades.get(i).getText().toString());
+			for (int j = 0; j < groups.get(i).size(); j++)
+			{
+				groups.get(i).get(j).setGrade(groupGrades.get(i).getText().toString());
+			}
+			
 		}
 	}
 	
+	private ArrayList<Student> breakdownGroupsToStudents()
+	{
+		ArrayList<Student> students = new ArrayList<Student>();
+		for (int i = 0; i < groups.size(); i++)
+		{
+			for (int j = 0; j < groups.get(i).size(); j++)
+			{
+				students.add(groups.get(i).get(j));
+			}
+		}
+		return students;
+	}
 	private void addGradesToServer()
 	{
+		ArrayList<Student> students = breakdownGroupsToStudents();
 		try {
 			initSocketStreams();
 			writeCommand("addGrades");
@@ -235,7 +254,7 @@ public class AddGrade extends Activity implements View.OnClickListener
 			closeConnections();
 		}catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 
 	@Override
@@ -246,7 +265,7 @@ public class AddGrade extends Activity implements View.OnClickListener
 			case R.id.addGradeSubmitButton:
 				if (!hasInputErrors())
 				{
-					addGradesToStudents();
+					addGradesToGroups();
 					addGradesToServer();
 					Toast.makeText(getApplicationContext(), "Submitted Grades", Toast.LENGTH_LONG).show();
 				}

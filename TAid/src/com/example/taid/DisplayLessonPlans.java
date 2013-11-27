@@ -28,6 +28,13 @@ public class DisplayLessonPlans extends ListActivity
 		setListAdapter(new ArrayAdapter<String>(DisplayLessonPlans.this, android.R.layout.simple_list_item_1, classes));
 	}
 	
+	@Override
+	protected void onPause() 
+	{
+		super.onPause();
+		finish(); //gets rid of the activity
+	}
+	
 	private void init()
 	{
 		Intent i = getIntent();

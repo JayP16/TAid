@@ -156,6 +156,36 @@
             </intent-filter>
         </activity>
         
+                                <activity
+            android:name="com.example.taid.DisplayAssignments"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.taid.DISPLAYASSIGNMENTS" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.example.taid.IndividualGrade"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.taid.INDIVIDUALGRADE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
+        <activity
+            android:name="com.example.taid.AddGroupGrade"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="com.example.taid.ADDGROUPGRADE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        
                 
     </application>
 
