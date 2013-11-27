@@ -16,5 +16,6 @@
         android:layout_height="fill_parent"
         android:layout_above="@id/regCourses"
         android:layout_alignParentTop="true"
-        />
+        android:background="@drawable/crumbled_paper" />
+
 </RelativeLayout>

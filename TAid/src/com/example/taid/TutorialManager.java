@@ -7,9 +7,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,7 +27,6 @@ import android.view.View;
 
 public class TutorialManager extends Activity implements View.OnClickListener
 {
-	
 	private static final int PICKFILE_RESULT_CODE = 0;
 	private TextView course;
 	private TextView tutorialSection;
@@ -40,7 +36,8 @@ public class TutorialManager extends Activity implements View.OnClickListener
 	private Button editLesson;
 	private Button emailButton;
 	private Button groupButton;
-	
+	private Button addGradeButton;
+	private Button addGroupGradeButton;	
 	private TeachingAssistant t;
 	private Course c;
 	private Tutorial tut;
@@ -67,6 +64,8 @@ public class TutorialManager extends Activity implements View.OnClickListener
 		editLesson = (Button)findViewById(R.id.editLessonButton);
 		emailButton = (Button)findViewById(R.id.emailProfessor);
 		groupButton = (Button)findViewById(R.id.group);
+		addGradeButton = (Button)findViewById(R.id.addGradeButton);
+		addGroupGradeButton = (Button)findViewById(R.id.addGroupGradeButton);
 		
 		studentList.setOnClickListener(this);
 		displayLesson.setOnClickListener(this);
@@ -74,6 +73,8 @@ public class TutorialManager extends Activity implements View.OnClickListener
 		editLesson.setOnClickListener(this);
 		emailButton.setOnClickListener(this);
 		groupButton.setOnClickListener(this);
+		addGradeButton.setOnClickListener(this);
+		addGroupGradeButton.setOnClickListener(this);
 		
 		Intent i = getIntent();
 		t = (TeachingAssistant)i.getSerializableExtra("teachingAssistant");
@@ -180,11 +181,20 @@ public class TutorialManager extends Activity implements View.OnClickListener
 		            Log.e("tag", "No activity can handle picking a file. Showing alternatives.");
 		        }
 				break;
+			case R.id.addGradeButton:
+				Intent intent6 = new Intent(this, AddGrade.class);
+				intent6.putExtra("course", c);
+				intent6.putExtra("tutorial", tut);
+				startActivity(intent6);
+				break;
+			case R.id.addGroupGradeButton:
+				Intent intent7 = new Intent(this, AddGroupGrade.class);
+				intent7.putExtra("course", c);
+				intent7.putExtra("tutorial", tut);
+				startActivity(intent7);
 		}
 		
 	}
-	
-	
 	
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
        
@@ -211,7 +221,9 @@ public class TutorialManager extends Activity implements View.OnClickListener
 					printwriter.writeObject(tut);
 					printwriter.writeObject(c);
 					printwriter.writeObject(lines.toArray(new String[lines.size()]));
-					
+					clientSocket.close();
+					in.close();
+					printwriter.close();
 					
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
@@ -223,5 +235,4 @@ public class TutorialManager extends Activity implements View.OnClickListener
             }
 		}
 	}
-	
 }

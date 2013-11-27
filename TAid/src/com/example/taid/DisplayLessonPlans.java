@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import UserInformation.Course;
 import UserInformation.LessonPlan;
-import UserInformation.TeachingAssistant;
 import UserInformation.Tutorial;
 import android.app.ListActivity;
 import android.content.Intent;
@@ -26,6 +25,13 @@ public class DisplayLessonPlans extends ListActivity
 		super.onCreate(savedInstanceState);		
 		init();
 		setListAdapter(new ArrayAdapter<String>(DisplayLessonPlans.this, android.R.layout.simple_list_item_1, classes));
+	}
+	
+	@Override
+	protected void onPause() 
+	{
+		super.onPause();
+		finish(); //gets rid of the activity
 	}
 	
 	private void init()

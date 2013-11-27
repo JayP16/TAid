@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/generic_bg"
     android:orientation="vertical"
-    android:padding="30dp"
-    tools:context=".DisplayCourses" >
+    android:padding="30dp" >
 
     <TextView
         android:id="@+id/courseDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Course:" />
+        android:text="Course:"
+        android:textColor="@color/red" />
 
     <TextView
         android:id="@+id/tutorialDisplay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tutorial Section:" />
+        android:text="Tutorial Section:"
+        android:textColor="@color/red" />
 
     <Button
         android:id="@+id/stuListButton"
@@ -30,8 +31,8 @@
         android:id="@+id/displayLessonButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:text="Lesson Plans" />
+        android:text="Lesson Plans" 
+        android:layout_marginBottom="15dp"/>
 
     <Button
         android:id="@+id/createLessonButton"
@@ -51,6 +52,17 @@
         android:layout_height="wrap_content"
         android:text="Emai Professor" />
 
+    <Button
+        android:id="@+id/addGradeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Grade" />
+
+    <Button
+        android:id="@+id/addGroupGradeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Group Grades" />
     <Button
         android:id="@+id/group"
         android:layout_width="wrap_content"
