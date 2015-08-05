@@ -3,17 +3,22 @@ package com.example.taid;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Calendar;
+
 import UserInformation.Globals;
 import UserInformation.Professor;
 import UserInformation.TeachingAssistant;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.StrictMode;
+import android.support.v4.app.NotificationCompat;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MotionEvent;
@@ -89,6 +94,48 @@ public class FullscreenActivity extends Activity {
 
     
         findViewById(R.id.submit).setOnTouchListener(mDelayHideTouchListener);
+        
+      //Basic Notification
+		
+		
+      		//Get the current year,month,day and time
+      	    Calendar c = Calendar.getInstance(); 
+      		int day = c.get(Calendar.DATE);
+      		int month = c.get(Calendar.MONTH);
+      		int year = c.get(Calendar.YEAR);
+      		int time = c.get(Calendar.HOUR_OF_DAY);
+      		c.get(Calendar.SECOND);
+      		//------------------------
+      		//building notification
+      		NotificationCompat.Builder mBuilder =
+      		new NotificationCompat.Builder(this)
+      		.setSmallIcon(R.drawable.bk_red)
+      		.setContentTitle("notification")
+      		.setContentText("CSCC01 Tutorial: in 2 hrs");
+      		//-------------------
+      		//Go back to the app on click
+      		Intent resultIntent = new Intent(this, FullscreenActivity.class);
+      		PendingIntent resultPendingIntent =
+      		    PendingIntent.getActivity(
+      		    this,
+      		    0,
+      		    resultIntent,
+      		    PendingIntent.FLAG_UPDATE_CURRENT
+      		);
+      				
+      		//-------------------
+      		mBuilder.setContentIntent(resultPendingIntent);
+      		//------------
+      		// Sets an ID for the notification
+      		int mNotificationId = 001;
+      		// Gets an instance of the NotificationManager service
+      		NotificationManager mNotifyMgr = 
+      		        (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+      		// Builds the notification and issues it.
+      		mNotifyMgr.notify(mNotificationId, mBuilder.build());
+      		//--------------------
+      		//Notification
+        
         registerViews();
     }
 
